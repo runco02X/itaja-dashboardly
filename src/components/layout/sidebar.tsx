@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   Activity,
   CreditCard,
@@ -20,12 +21,14 @@ interface SidebarProps {
 
 interface SidebarItemProps {
   icon: ReactNode;
-  title: string;
+  titleKey: string;
   path: string;
   active: boolean;
 }
 
-const SidebarItem = ({ icon, title, path, active }: SidebarItemProps) => {
+const SidebarItem = ({ icon, titleKey, path, active }: SidebarItemProps) => {
+  const { t } = useLanguage();
+
   return (
     <NavLink
       to={path}
@@ -37,7 +40,7 @@ const SidebarItem = ({ icon, title, path, active }: SidebarItemProps) => {
       )}
     >
       <div className="h-5 w-5 shrink-0">{icon}</div>
-      <span>{title}</span>
+      <span>{t(titleKey as any)}</span>
     </NavLink>
   );
 };
@@ -45,6 +48,7 @@ const SidebarItem = ({ icon, title, path, active }: SidebarItemProps) => {
 export function Sidebar({ open, onOpenChange }: SidebarProps) {
   const location = useLocation();
   const pathname = location.pathname;
+  const { t } = useLanguage();
 
   const isActive = (path: string) => {
     // For root path
@@ -83,18 +87,18 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         <nav className="flex-1 space-y-1 px-2 py-4">
           <div className="space-y-1 py-2">
             <h3 className="px-3 text-xs font-medium uppercase text-muted-foreground">
-              Management
+              {t('management')}
             </h3>
             <div className="space-y-1">
               <SidebarItem
                 icon={<Folder className="h-full w-full" />}
-                title="Projects"
+                titleKey="projects"
                 path="/"
                 active={isActive("/")}
               />
               <SidebarItem
                 icon={<Activity className="h-full w-full" />}
-                title="Payment Logs"
+                titleKey="paymentLogs"
                 path="/payment-logs"
                 active={isActive("/payment-logs")}
               />
@@ -103,18 +107,18 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
 
           <div className="space-y-1 py-2">
             <h3 className="px-3 text-xs font-medium uppercase text-muted-foreground">
-              Configuration
+              {t('configuration')}
             </h3>
             <div className="space-y-1">
               <SidebarItem
                 icon={<Key className="h-full w-full" />}
-                title="API & Webhooks"
+                titleKey="apiWebhooks"
                 path="/api-webhooks"
                 active={isActive("/api-webhooks")}
               />
               <SidebarItem
                 icon={<Settings className="h-full w-full" />}
-                title="Settings"
+                titleKey="settings"
                 path="/settings"
                 active={isActive("/settings")}
               />

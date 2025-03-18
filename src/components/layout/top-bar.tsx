@@ -1,6 +1,7 @@
 
 import { Bell, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageSelector } from "@/components/language-selector";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -34,6 +35,7 @@ export function TopBar({ sidebarOpen, onSidebarOpenChange }: TopBarProps) {
       </Button>
 
       <div className="ml-auto flex items-center gap-2">
+        <LanguageSelector />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative h-9 w-9">

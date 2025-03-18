@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const NotFound = () => {
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     console.error(
@@ -25,7 +27,7 @@ const NotFound = () => {
         <Button asChild className="mt-4">
           <a href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Return to Dashboard
+            {t('returnToDashboard')}
           </a>
         </Button>
       </div>

@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Mock data
 const initialProjects = [
@@ -58,6 +59,7 @@ const Projects = () => {
   const [projects, setProjects] = useState(initialProjects);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const filteredProjects = projects.filter(project => 
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -72,20 +74,20 @@ const Projects = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t('projectsTitle')}</h1>
           <p className="text-muted-foreground">
-            Manage your payment projects and their subscriptions
+            {t('projectsSubtitle')}
           </p>
         </div>
         <Button className="w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" />
-          New Project
+          {t('newProject')}
         </Button>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row">
         <Input
-          placeholder="Search projects..."
+          placeholder={t('searchProjects')}
           className="w-full sm:max-w-xs"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -121,14 +123,14 @@ const Projects = () => {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Actions</span>
+                      <span className="sr-only">{t('actions')}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>View Details</DropdownMenuItem>
+                    <DropdownMenuItem>{t('edit')}</DropdownMenuItem>
+                    <DropdownMenuItem>{t('viewDetails')}</DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive">
-                      Delete
+                      {t('delete')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -140,7 +142,7 @@ const Projects = () => {
             <CardContent className="pb-2">
               <div className="flex items-center gap-2">
                 <Badge variant={project.status === "active" ? "default" : "secondary"}>
-                  {project.status === "active" ? "Active" : "Inactive"}
+                  {project.status === "active" ? t('active') : t('inactive')}
                 </Badge>
               </div>
             </CardContent>
@@ -148,7 +150,7 @@ const Projects = () => {
               <div className="flex w-full justify-between items-center text-xs text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <User className="h-3 w-3" />
-                  <span>{project.clients} clients</span>
+                  <span>{project.clients} {t('clients')}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3" />
@@ -158,7 +160,7 @@ const Projects = () => {
               <div className="flex justify-between w-full gap-2">
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <CreditCard className="h-3 w-3" />
-                  <span>{project.subscriptions} subscriptions</span>
+                  <span>{project.subscriptions} {t('subscriptions')}</span>
                 </div>
                 <Button 
                   variant="outline" 
@@ -170,7 +172,7 @@ const Projects = () => {
                   }}
                 >
                   <BarChart className="h-3 w-3 mr-1" />
-                  Dashboard
+                  {t('dashboard')}
                 </Button>
               </div>
             </CardFooter>
