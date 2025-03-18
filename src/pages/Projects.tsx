@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Mock data
 const initialProjects = [
@@ -57,11 +57,16 @@ const initialProjects = [
 const Projects = () => {
   const [projects, setProjects] = useState(initialProjects);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const filteredProjects = projects.filter(project => 
     project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     project.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleProjectClick = (projectId: string) => {
+    navigate(`/projects/${projectId}`);
+  };
 
   return (
     <div className="space-y-6">
@@ -89,10 +94,14 @@ const Projects = () => {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredProjects.map((project) => (
-          <Card key={project.id} className={cn(
-            "transition-all hover:shadow-md",
-            project.status === "inactive" && "opacity-70"
-          )}>
+          <Card 
+            key={project.id} 
+            className={cn(
+              "transition-all hover:shadow-md cursor-pointer",
+              project.status === "inactive" && "opacity-70"
+            )}
+            onClick={() => handleProjectClick(project.id)}
+          >
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
@@ -100,23 +109,24 @@ const Projects = () => {
                     <Folder className="h-4 w-4" />
                   </div>
                   <div>
-                    <Link to={`/projects/${project.id}`}>
-                      <CardTitle className="text-base hover:underline">{project.name}</CardTitle>
-                    </Link>
+                    <CardTitle className="text-base">{project.name}</CardTitle>
                   </div>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8" 
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <MoreHorizontal className="h-4 w-4" />
                       <span className="sr-only">Actions</span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
                     <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to={`/projects/${project.id}`} className="w-full flex">View Details</Link>
-                    </DropdownMenuItem>
+                    <DropdownMenuItem>View Details</DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive">
                       Delete
                     </DropdownMenuItem>
@@ -145,25 +155,23 @@ const Projects = () => {
                   <span>{project.date}</span>
                 </div>
               </div>
-              <div className="flex gap-2 w-full">
-                <Link to={`/projects/${project.id}`} className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <BarChart className="h-3 w-3 mr-1" />
-                    Dashboard
-                  </Button>
-                </Link>
-                <Link to={`/projects/${project.id}/subscriptions`} className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <CreditCard className="h-3 w-3 mr-1" />
-                    Subscriptions
-                  </Button>
-                </Link>
-                <Link to={`/projects/${project.id}/clients`} className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <User className="h-3 w-3 mr-1" />
-                    Clients
-                  </Button>
-                </Link>
+              <div className="flex justify-between w-full gap-2">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <CreditCard className="h-3 w-3" />
+                  <span>{project.subscriptions} subscriptions</span>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="ml-auto"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/projects/${project.id}`);
+                  }}
+                >
+                  <BarChart className="h-3 w-3 mr-1" />
+                  Dashboard
+                </Button>
               </div>
             </CardFooter>
           </Card>
