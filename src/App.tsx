@@ -10,6 +10,8 @@ import Dashboard from "@/pages/Dashboard";
 import Projects from "@/pages/Projects";
 import Subscriptions from "@/pages/Subscriptions";
 import Clients from "@/pages/Clients";
+import ProjectSubscriptions from "@/pages/ProjectSubscriptions";
+import ProjectClients from "@/pages/ProjectClients";
 import PaymentLogs from "@/pages/PaymentLogs";
 import ApiWebhooks from "@/pages/ApiWebhooks";
 import Settings from "@/pages/Settings";
@@ -53,6 +55,23 @@ const App = () => (
             element={
               <DashboardLayout>
                 <Clients />
+              </DashboardLayout>
+            } 
+          />
+          {/* Project-specific routes */}
+          <Route 
+            path="/projects/:projectId/subscriptions" 
+            element={
+              <DashboardLayout>
+                <ProjectSubscriptions />
+              </DashboardLayout>
+            } 
+          />
+          <Route 
+            path="/projects/:projectId/clients" 
+            element={
+              <DashboardLayout>
+                <ProjectClients />
               </DashboardLayout>
             } 
           />

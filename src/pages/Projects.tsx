@@ -1,5 +1,5 @@
 
-import { Plus, MoreHorizontal, Folder, Calendar, User } from "lucide-react";
+import { Plus, MoreHorizontal, Folder, Calendar, User, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 // Mock data
 const initialProjects = [
@@ -129,14 +130,30 @@ const Projects = () => {
                 </Badge>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between border-t pt-4 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <User className="h-3 w-3" />
-                <span>{project.clients} clients</span>
+            <CardFooter className="flex flex-col gap-3 border-t pt-4">
+              <div className="flex w-full justify-between items-center text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <User className="h-3 w-3" />
+                  <span>{project.clients} clients</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3" />
+                  <span>{project.date}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <Calendar className="h-3 w-3" />
-                <span>{project.date}</span>
+              <div className="flex gap-2 w-full">
+                <Link to={`/projects/${project.id}/subscriptions`} className="flex-1">
+                  <Button variant="outline" size="sm" className="w-full">
+                    <CreditCard className="h-3 w-3 mr-1" />
+                    Subscriptions
+                  </Button>
+                </Link>
+                <Link to={`/projects/${project.id}/clients`} className="flex-1">
+                  <Button variant="outline" size="sm" className="w-full">
+                    <User className="h-3 w-3 mr-1" />
+                    Clients
+                  </Button>
+                </Link>
               </div>
             </CardFooter>
           </Card>
