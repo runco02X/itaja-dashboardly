@@ -9,7 +9,6 @@ import {
   LayoutDashboard,
   LogOut,
   Settings,
-  TrendingUp,
   Users,
   Folder,
 } from "lucide-react";
@@ -48,7 +47,13 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
   const pathname = location.pathname;
 
   const isActive = (path: string) => {
-    return pathname === path;
+    // For root path
+    if (path === "/" && pathname === "/") {
+      return true;
+    }
+    
+    // For other paths
+    return pathname === path || pathname.startsWith(path + "/");
   };
 
   return (
@@ -78,46 +83,14 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         <nav className="flex-1 space-y-1 px-2 py-4">
           <div className="space-y-1 py-2">
             <h3 className="px-3 text-xs font-medium uppercase text-muted-foreground">
-              Dashboard
-            </h3>
-            <div className="space-y-1">
-              <SidebarItem
-                icon={<LayoutDashboard className="h-full w-full" />}
-                title="Overview"
-                path="/"
-                active={isActive("/")}
-              />
-              <SidebarItem
-                icon={<TrendingUp className="h-full w-full" />}
-                title="Analytics"
-                path="/analytics"
-                active={isActive("/analytics")}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1 py-2">
-            <h3 className="px-3 text-xs font-medium uppercase text-muted-foreground">
               Management
             </h3>
             <div className="space-y-1">
               <SidebarItem
                 icon={<Folder className="h-full w-full" />}
                 title="Projects"
-                path="/projects"
-                active={isActive("/projects")}
-              />
-              <SidebarItem
-                icon={<Users className="h-full w-full" />}
-                title="Clients"
-                path="/clients"
-                active={isActive("/clients")}
-              />
-              <SidebarItem
-                icon={<CreditCard className="h-full w-full" />}
-                title="Subscriptions"
-                path="/subscriptions"
-                active={isActive("/subscriptions")}
+                path="/"
+                active={isActive("/")}
               />
               <SidebarItem
                 icon={<Activity className="h-full w-full" />}

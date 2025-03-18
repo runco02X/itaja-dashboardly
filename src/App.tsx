@@ -6,10 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import DashboardLayout from "@/components/layout/dashboard-layout";
-import Dashboard from "@/pages/Dashboard";
 import Projects from "@/pages/Projects";
-import Subscriptions from "@/pages/Subscriptions";
-import Clients from "@/pages/Clients";
+import ProjectDashboard from "@/pages/ProjectDashboard";
 import ProjectSubscriptions from "@/pages/ProjectSubscriptions";
 import ProjectClients from "@/pages/ProjectClients";
 import PaymentLogs from "@/pages/PaymentLogs";
@@ -30,35 +28,18 @@ const App = () => (
             path="/" 
             element={
               <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
-            } 
-          />
-          <Route 
-            path="/projects" 
-            element={
-              <DashboardLayout>
                 <Projects />
               </DashboardLayout>
             } 
           />
           <Route 
-            path="/subscriptions" 
+            path="/projects/:projectId" 
             element={
               <DashboardLayout>
-                <Subscriptions />
+                <ProjectDashboard />
               </DashboardLayout>
             } 
           />
-          <Route 
-            path="/clients" 
-            element={
-              <DashboardLayout>
-                <Clients />
-              </DashboardLayout>
-            } 
-          />
-          {/* Project-specific routes */}
           <Route 
             path="/projects/:projectId/subscriptions" 
             element={

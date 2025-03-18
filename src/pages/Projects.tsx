@@ -1,5 +1,5 @@
 
-import { Plus, MoreHorizontal, Folder, Calendar, User, CreditCard } from "lucide-react";
+import { Plus, MoreHorizontal, Folder, Calendar, User, CreditCard, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -100,7 +100,9 @@ const Projects = () => {
                     <Folder className="h-4 w-4" />
                   </div>
                   <div>
-                    <CardTitle className="text-base">{project.name}</CardTitle>
+                    <Link to={`/projects/${project.id}`}>
+                      <CardTitle className="text-base hover:underline">{project.name}</CardTitle>
+                    </Link>
                   </div>
                 </div>
                 <DropdownMenu>
@@ -112,7 +114,9 @@ const Projects = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>View Details</DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to={`/projects/${project.id}`} className="w-full flex">View Details</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive">
                       Delete
                     </DropdownMenuItem>
@@ -142,6 +146,12 @@ const Projects = () => {
                 </div>
               </div>
               <div className="flex gap-2 w-full">
+                <Link to={`/projects/${project.id}`} className="flex-1">
+                  <Button variant="outline" size="sm" className="w-full">
+                    <BarChart className="h-3 w-3 mr-1" />
+                    Dashboard
+                  </Button>
+                </Link>
                 <Link to={`/projects/${project.id}/subscriptions`} className="flex-1">
                   <Button variant="outline" size="sm" className="w-full">
                     <CreditCard className="h-3 w-3 mr-1" />
