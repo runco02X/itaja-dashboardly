@@ -49,6 +49,20 @@ export const enUS = {
   viewDetails: "View Details",
   delete: "Delete",
   actions: "Actions",
+  project: "Project",
+
+  // Notifications page
+  notificationsTitle: "Notifications",
+  notificationsSubtitle: "View and manage your notifications",
+  markAllAsRead: "Mark all as read",
+  markAsRead: "Mark as read",
+  searchNotifications: "Search notifications...",
+  notification: "Notification",
+  noNotificationsFound: "No notifications found",
+  date: "Date",
+  type: "Type",
+  info: "Info",
+  warning: "Warning",
   noProjectsFound: "No projects found",
   createYourFirstProject: "Create your first project",
 

@@ -50,6 +50,20 @@ export const fr = {
   viewDetails: "Voir les détails",
   delete: "Supprimer",
   actions: "Actions",
+  project: "Projet",
+
+  // Notifications page
+  notificationsTitle: "Notifications",
+  notificationsSubtitle: "Consultez et gérez vos notifications",
+  markAllAsRead: "Marquer tout comme lu",
+  markAsRead: "Marquer comme lu",
+  searchNotifications: "Rechercher des notifications...",
+  notification: "Notification",
+  noNotificationsFound: "Aucune notification trouvée",
+  date: "Date",
+  type: "Type",
+  info: "Info",
+  warning: "Avertissement",
   noProjectsFound: "Aucun projet trouvé",
   createYourFirstProject: "Créez votre premier projet",
 

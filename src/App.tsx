@@ -19,6 +19,7 @@ import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import Notifications from "@/pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +93,16 @@ const App = () => (
                 <ProtectedRoute>
                   <DashboardLayout>
                     <ApiWebhooks />
+                  </DashboardLayout>
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/notifications" 
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <Notifications />
                   </DashboardLayout>
                 </ProtectedRoute>
               } 

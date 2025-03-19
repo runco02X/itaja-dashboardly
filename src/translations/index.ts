@@ -61,6 +61,20 @@ export type TranslationKeys = {
   viewDetails: string;
   delete: string;
   actions: string;
+  project: string;
+
+  // Notifications page
+  notificationsTitle: string;
+  notificationsSubtitle: string;
+  markAllAsRead: string;
+  markAsRead: string;
+  searchNotifications: string;
+  notification: string;
+  noNotificationsFound: string;
+  date: string;
+  type: string;
+  info: string;
+  warning: string;
   noProjectsFound: string;
   createYourFirstProject: string;
 

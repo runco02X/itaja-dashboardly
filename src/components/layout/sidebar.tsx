@@ -12,6 +12,7 @@ import {
   Settings,
   Users,
   Folder,
+  Bell,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -101,6 +102,12 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
                 titleKey="paymentLogs"
                 path="/payment-logs"
                 active={isActive("/payment-logs")}
+              />
+              <SidebarItem
+                icon={<Bell className="h-full w-full" />}
+                titleKey="notifications"
+                path="/notifications"
+                active={isActive("/notifications")}
               />
             </div>
           </div>

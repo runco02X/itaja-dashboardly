@@ -31,6 +31,8 @@ const initialPayments = [
     status: "successful",
     method: "Credit Card",
     date: "Jul 14, 2023",
+    projectId: "proj-001",
+    projectName: "Website Redesign"
   },
   {
     id: "INV-002",
@@ -40,6 +42,8 @@ const initialPayments = [
     status: "successful",
     method: "PayPal",
     date: "Jul 12, 2023",
+    projectId: "proj-002",
+    projectName: "Mobile App"
   },
   {
     id: "INV-003",
@@ -49,6 +53,8 @@ const initialPayments = [
     status: "failed",
     method: "Credit Card",
     date: "Jul 10, 2023",
+    projectId: "proj-001",
+    projectName: "Website Redesign"
   },
   {
     id: "INV-004",
@@ -58,6 +64,8 @@ const initialPayments = [
     status: "successful",
     method: "Bank Transfer",
     date: "Jul 05, 2023",
+    projectId: "proj-003",
+    projectName: "E-commerce Platform"
   },
   {
     id: "INV-005",
@@ -67,6 +75,8 @@ const initialPayments = [
     status: "pending",
     method: "Credit Card",
     date: "Jul 01, 2023",
+    projectId: "proj-002",
+    projectName: "Mobile App"
   },
   {
     id: "INV-006",
@@ -76,6 +86,8 @@ const initialPayments = [
     status: "successful",
     method: "PayPal",
     date: "Jun 28, 2023",
+    projectId: "proj-001",
+    projectName: "Website Redesign"
   },
   {
     id: "INV-007",
@@ -85,6 +97,8 @@ const initialPayments = [
     status: "failed",
     method: "Credit Card",
     date: "Jun 25, 2023",
+    projectId: "proj-003",
+    projectName: "E-commerce Platform"
   },
   {
     id: "INV-008",
@@ -94,6 +108,8 @@ const initialPayments = [
     status: "successful",
     method: "PayPal",
     date: "Jun 20, 2023",
+    projectId: "proj-002",
+    projectName: "Mobile App"
   },
 ];
 
@@ -105,7 +121,8 @@ const PaymentLogs = () => {
   const filteredPayments = payments.filter(payment => 
     payment.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
     payment.plan.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    payment.id.toLowerCase().includes(searchTerm.toLowerCase())
+    payment.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    payment.projectName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -146,6 +163,7 @@ const PaymentLogs = () => {
               <TableHead>{t('invoiceId')}</TableHead>
               <TableHead>{t('client')}</TableHead>
               <TableHead>{t('plan')}</TableHead>
+              <TableHead>{t('project')}</TableHead>
               <TableHead>{t('amount')}</TableHead>
               <TableHead>{t('status')}</TableHead>
               <TableHead>{t('paymentMethod')}</TableHead>
@@ -159,6 +177,15 @@ const PaymentLogs = () => {
                 <TableCell className="font-medium">{payment.id}</TableCell>
                 <TableCell>{payment.client}</TableCell>
                 <TableCell>{payment.plan}</TableCell>
+                <TableCell>
+                  <Button 
+                    variant="link" 
+                    className="p-0 h-auto" 
+                    onClick={() => window.location.href = `/projects/${payment.projectId}`}
+                  >
+                    {payment.projectName}
+                  </Button>
+                </TableCell>
                 <TableCell>${payment.amount.toFixed(2)}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
