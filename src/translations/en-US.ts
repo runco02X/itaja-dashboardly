@@ -13,6 +13,9 @@ export const enUS = {
   darkMode: "Dark mode",
   lightMode: "Light mode",
   systemTheme: "System theme",
+  changeTheme: "Change theme",
+  skipToContent: "Skip to content",
+  languageChanged: "Language changed to",
   
   // Authentication
   signIn: "Sign in",
@@ -254,4 +257,17 @@ export const enUS = {
   goHome: "Go to Home",
   serverError: "Server error",
   serverErrorMessage: "Something went wrong on our end. Please try again later.",
+
+  // Accessibility
+  mainContent: "Main content",
+  openMenu: "Open menu",
+  closeMenu: "Close menu",
+  previousPage: "Previous page",
+  nextPage: "Next page",
+  loading: "Loading...",
+  required: "Required",
+  optional: "Optional",
+  moreInfo: "More information",
+  refresh: "Refresh",
+  readMore: "Read more",
 };

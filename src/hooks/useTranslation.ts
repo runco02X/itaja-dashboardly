@@ -1,3 +1,4 @@
+
 import { useLanguage } from '@/context/LanguageContext';
 import { TranslationKey } from '@/translations';
 
@@ -9,12 +10,23 @@ export function useTranslation() {
   const languageContext = useLanguage();
   
   /**
-   * Translate a key
+   * Translate a key with optional interpolation values
    * @param key - The translation key
-   * @returns The translated string
+   * @param params - Optional parameters for interpolation (e.g., {name: 'John'})
+   * @returns The translated string with interpolated values
    */
-  const translate = (key: TranslationKey): string => {
-    return languageContext.t(key);
+  const translate = (key: TranslationKey, params?: Record<string, string | number>): string => {
+    let translation = languageContext.t(key);
+    
+    // Handle interpolation if params are provided
+    if (params) {
+      Object.entries(params).forEach(([paramKey, paramValue]) => {
+        const regex = new RegExp(`{{${paramKey}}}`, 'g');
+        translation = translation.replace(regex, String(paramValue));
+      });
+    }
+    
+    return translation;
   };
   
   return {

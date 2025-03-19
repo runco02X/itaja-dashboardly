@@ -1,4 +1,3 @@
-
 export const fr = {
   // Navigation & Layout
   projects: "Projets",
@@ -14,6 +13,9 @@ export const fr = {
   darkMode: "Mode sombre",
   lightMode: "Mode clair",
   systemTheme: "Thème système",
+  changeTheme: "Changer de thème",
+  skipToContent: "Passer au contenu",
+  languageChanged: "Langue changée en",
   
   // Authentication
   signIn: "Se connecter",
@@ -255,5 +257,17 @@ export const fr = {
   goHome: "Aller à l'Accueil",
   serverError: "Erreur serveur",
   serverErrorMessage: "Une erreur s'est produite de notre côté. Veuillez réessayer plus tard.",
-};
 
+  // Accessibility
+  mainContent: "Contenu principal",
+  openMenu: "Ouvrir le menu",
+  closeMenu: "Fermer le menu",
+  previousPage: "Page précédente",
+  nextPage: "Page suivante",
+  loading: "Chargement...",
+  required: "Obligatoire",
+  optional: "Optionnel",
+  moreInfo: "Plus d'informations",
+  refresh: "Rafraîchir",
+  readMore: "Lire la suite",
+};
