@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Plus, Search, Filter, MoreHorizontal, CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -150,6 +151,7 @@ interface SubscriptionFormValues {
 
 const ProjectSubscriptions = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [projectSubscriptions, setProjectSubscriptions] = useState<any[]>([]);
   const [projectDetails, setProjectDetails] = useState<any>(null);
@@ -205,7 +207,7 @@ const ProjectSubscriptions = () => {
   };
 
   if (!projectDetails) {
-    return <div>Project not found</div>;
+    return <div>{t('projectNotFound')}</div>;
   }
 
   return (
@@ -214,28 +216,29 @@ const ProjectSubscriptions = () => {
         <div>
           <div className="flex items-center gap-2">
             <Link to="/projects">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="flex items-center gap-1">
                 <ArrowLeft className="h-4 w-4" />
+                <span>{t('back')}</span>
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} Subscriptions</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} {t('subscriptions')}</h1>
           </div>
           <p className="text-muted-foreground mt-1">
-            Manage subscription plans for this project
+            {t('manageSubscriptions')}
           </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button className="w-full sm:w-auto">
               <Plus className="mr-2 h-4 w-4" />
-              New Plan
+              {t('newPlan')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create New Subscription Plan</DialogTitle>
+              <DialogTitle>{t('createNewSubscription')}</DialogTitle>
               <DialogDescription>
-                Add a new subscription plan to {projectDetails.name}
+                {t('addSubscriptionTo')} {projectDetails.name}
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -245,7 +248,7 @@ const ProjectSubscriptions = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Plan Name</FormLabel>
+                      <FormLabel>{t('planName')}</FormLabel>
                       <FormControl>
                         <Input placeholder="e.g. Basic Plan" {...field} />
                       </FormControl>
@@ -258,7 +261,7 @@ const ProjectSubscriptions = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>{t('description')}</FormLabel>
                       <FormControl>
                         <Input placeholder="Brief description of the plan" {...field} />
                       </FormControl>
@@ -272,7 +275,7 @@ const ProjectSubscriptions = () => {
                     name="price"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Price</FormLabel>
+                        <FormLabel>{t('price')}</FormLabel>
                         <FormControl>
                           <Input type="number" min="0" {...field} />
                         </FormControl>
@@ -285,15 +288,15 @@ const ProjectSubscriptions = () => {
                     name="frequency"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel>Frequency</FormLabel>
+                        <FormLabel>{t('frequency')}</FormLabel>
                         <FormControl>
                           <select
                             className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
                             {...field}
                           >
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
-                            <option value="yearly">Yearly</option>
+                            <option value="monthly">{t('monthly')}</option>
+                            <option value="quarterly">{t('quarterly')}</option>
+                            <option value="yearly">{t('yearly')}</option>
                           </select>
                         </FormControl>
                         <FormMessage />
@@ -306,19 +309,19 @@ const ProjectSubscriptions = () => {
                   name="features"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Features</FormLabel>
+                      <FormLabel>{t('features')}</FormLabel>
                       <FormControl>
                         <Input placeholder="Comma-separated list of features" {...field} />
                       </FormControl>
                       <FormDescription>
-                        Enter features separated by commas (e.g. "10 Projects, 5GB Storage, Support")
+                        {t('enterFeatures')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <DialogFooter>
-                  <Button type="submit">Create Plan</Button>
+                  <Button type="submit">{t('newPlan')}</Button>
                 </DialogFooter>
               </form>
             </Form>
@@ -330,7 +333,7 @@ const ProjectSubscriptions = () => {
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search plans..."
+            placeholder={t('searchPlans')}
             className="w-full pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -338,7 +341,7 @@ const ProjectSubscriptions = () => {
         </div>
         <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
           <Filter className="h-4 w-4" />
-          <span className="sr-only">Filter</span>
+          <span className="sr-only">{t('filter')}</span>
         </Button>
       </div>
 
@@ -355,7 +358,7 @@ const ProjectSubscriptions = () => {
                 className="absolute right-4 top-4 h-8 w-8"
               >
                 <MoreHorizontal className="h-4 w-4" />
-                <span className="sr-only">Actions</span>
+                <span className="sr-only">{t('actions')}</span>
               </Button>
               <div className="flex items-center gap-2">
                 <div className="rounded-md bg-primary/10 p-2 text-primary">
@@ -372,7 +375,7 @@ const ProjectSubscriptions = () => {
             <CardContent className="flex-1 flex flex-col gap-4">
               <div className="flex items-end gap-1">
                 <span className="text-3xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground">/{plan.frequency}</span>
+                <span className="text-muted-foreground">/{t(plan.frequency as 'monthly' | 'yearly' | 'quarterly')}</span>
               </div>
               
               <div className="space-y-2">
@@ -387,11 +390,11 @@ const ProjectSubscriptions = () => {
               <div className="mt-auto pt-4 flex justify-between items-center text-xs text-muted-foreground border-t">
                 <div className="flex items-center gap-1">
                   <Badge variant={plan.status === "active" ? "default" : "secondary"}>
-                    {plan.status === "active" ? "Active" : "Inactive"}
+                    {plan.status === "active" ? t('active') : t('inactive')}
                   </Badge>
                 </div>
                 <div>
-                  {plan.subscribers} subscribers
+                  {plan.subscribers} {t('subscribers')}
                 </div>
               </div>
             </CardContent>

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Mock data
 const initialPayments = [
@@ -99,6 +100,7 @@ const initialPayments = [
 const PaymentLogs = () => {
   const [payments, setPayments] = useState(initialPayments);
   const [searchTerm, setSearchTerm] = useState("");
+  const { t } = useTranslation();
 
   const filteredPayments = payments.filter(payment => 
     payment.client.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -110,14 +112,14 @@ const PaymentLogs = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Payment Logs</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t('paymentLogsTitle')}</h1>
           <p className="text-muted-foreground">
-            View and manage all payments and transactions
+            {t('paymentLogsSubtitle')}
           </p>
         </div>
         <Button variant="outline">
           <Download className="mr-2 h-4 w-4" />
-          Export
+          {t('export')}
         </Button>
       </div>
 
@@ -125,7 +127,7 @@ const PaymentLogs = () => {
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search payments..."
+            placeholder={t('searchPayments')}
             className="w-full pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -133,7 +135,7 @@ const PaymentLogs = () => {
         </div>
         <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
           <Filter className="h-4 w-4" />
-          <span className="sr-only">Filter</span>
+          <span className="sr-only">{t('filter')}</span>
         </Button>
       </div>
 
@@ -141,13 +143,13 @@ const PaymentLogs = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Invoice ID</TableHead>
-              <TableHead>Client</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>{t('invoiceId')}</TableHead>
+              <TableHead>{t('client')}</TableHead>
+              <TableHead>{t('plan')}</TableHead>
+              <TableHead>{t('amount')}</TableHead>
+              <TableHead>{t('status')}</TableHead>
+              <TableHead>{t('paymentMethod')}</TableHead>
+              <TableHead>{t('paymentDate')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -163,17 +165,17 @@ const PaymentLogs = () => {
                     {payment.status === "successful" ? (
                       <Badge variant="outline" className="bg-success/10 text-success border-success/20">
                         <CheckCircle className="mr-1 h-3 w-3" />
-                        Successful
+                        {t('successful')}
                       </Badge>
                     ) : payment.status === "failed" ? (
                       <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20">
                         <XCircle className="mr-1 h-3 w-3" />
-                        Failed
+                        {t('failed')}
                       </Badge>
                     ) : (
                       <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
                         <AlertTriangle className="mr-1 h-3 w-3" />
-                        Pending
+                        {t('pending')}
                       </Badge>
                     )}
                   </div>
@@ -189,9 +191,9 @@ const PaymentLogs = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem>Download Receipt</DropdownMenuItem>
-                      <DropdownMenuItem>Contact Client</DropdownMenuItem>
+                      <DropdownMenuItem>{t('viewDetails')}</DropdownMenuItem>
+                      <DropdownMenuItem>{t('downloadReceipt')}</DropdownMenuItem>
+                      <DropdownMenuItem>{t('contactClient')}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

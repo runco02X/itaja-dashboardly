@@ -9,8 +9,10 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const Settings = () => {
+  const { t } = useTranslation();
   const [accountForm, setAccountForm] = useState({
     businessName: "Acme Inc.",
     email: "admin@acme.com",
@@ -40,40 +42,40 @@ const Settings = () => {
   };
 
   const handleAccountSave = () => {
-    toast.success("Account settings saved successfully");
+    toast.success(t('success'));
   };
 
   const handleNotificationsSave = () => {
-    toast.success("Notification preferences updated");
+    toast.success(t('success'));
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t('settingsTitle')}</h1>
         <p className="text-muted-foreground">
-          Manage your account settings and preferences
+          {t('settingsSubtitle')}
         </p>
       </div>
 
       <Tabs defaultValue="account" className="space-y-6">
         <TabsList className="grid w-full max-w-md grid-cols-3">
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+          <TabsTrigger value="account">{t('accountTab')}</TabsTrigger>
+          <TabsTrigger value="notifications">{t('notificationsTab')}</TabsTrigger>
+          <TabsTrigger value="billing">{t('billingTab')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="account" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Account Information</CardTitle>
+              <CardTitle>{t('accountInformation')}</CardTitle>
               <CardDescription>
-                Update your business information and contact details
+                {t('accountInfoSubtitle')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="businessName">Business Name</Label>
+                <Label htmlFor="businessName">{t('businessName')}</Label>
                 <Input
                   id="businessName"
                   value={accountForm.businessName}
@@ -81,7 +83,7 @@ const Settings = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">{t('email')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -90,7 +92,7 @@ const Settings = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">{t('phone')}</Label>
                 <Input
                   id="phone"
                   value={accountForm.phone}
@@ -98,7 +100,7 @@ const Settings = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="address">Business Address</Label>
+                <Label htmlFor="address">{t('businessAddress')}</Label>
                 <Textarea
                   id="address"
                   value={accountForm.address}
@@ -107,35 +109,35 @@ const Settings = () => {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end space-x-4">
-              <Button variant="outline">Cancel</Button>
-              <Button onClick={handleAccountSave}>Save Changes</Button>
+              <Button variant="outline">{t('cancel')}</Button>
+              <Button onClick={handleAccountSave}>{t('saveChanges')}</Button>
             </CardFooter>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Security</CardTitle>
+              <CardTitle>{t('security')}</CardTitle>
               <CardDescription>
-                Manage your password and authentication settings
+                {t('securitySubtitle')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="currentPassword">Current Password</Label>
+                <Label htmlFor="currentPassword">{t('currentPassword')}</Label>
                 <Input id="currentPassword" type="password" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="newPassword">New Password</Label>
+                <Label htmlFor="newPassword">{t('newPassword')}</Label>
                 <Input id="newPassword" type="password" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                <Label htmlFor="confirmPassword">{t('confirmNewPassword')}</Label>
                 <Input id="confirmPassword" type="password" />
               </div>
             </CardContent>
             <CardFooter className="flex justify-end space-x-4">
-              <Button variant="outline">Cancel</Button>
-              <Button>Update Password</Button>
+              <Button variant="outline">{t('cancel')}</Button>
+              <Button>{t('updatePassword')}</Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -143,17 +145,17 @@ const Settings = () => {
         <TabsContent value="notifications" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Notification Preferences</CardTitle>
+              <CardTitle>{t('notificationPreferences')}</CardTitle>
               <CardDescription>
-                Choose which notifications you want to receive
+                {t('notificationPreferencesSubtitle')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <h3 className="font-medium">Email Notifications</h3>
+                  <h3 className="font-medium">{t('emailNotifications')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Receive notifications via email
+                    {t('emailNotificationsDesc')}
                   </p>
                 </div>
                 <Switch
@@ -163,9 +165,9 @@ const Settings = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <h3 className="font-medium">Payment Alerts</h3>
+                  <h3 className="font-medium">{t('paymentAlerts')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Get notified about payment successes and failures
+                    {t('paymentAlertsDesc')}
                   </p>
                 </div>
                 <Switch
@@ -175,9 +177,9 @@ const Settings = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <h3 className="font-medium">Weekly Reports</h3>
+                  <h3 className="font-medium">{t('weeklyReports')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Receive weekly summary reports of your transactions
+                    {t('weeklyReportsDesc')}
                   </p>
                 </div>
                 <Switch
@@ -187,9 +189,9 @@ const Settings = () => {
               </div>
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <h3 className="font-medium">Marketing Emails</h3>
+                  <h3 className="font-medium">{t('marketingEmails')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Receive updates about new features and offers
+                    {t('marketingEmailsDesc')}
                   </p>
                 </div>
                 <Switch
@@ -199,7 +201,7 @@ const Settings = () => {
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Button onClick={handleNotificationsSave}>Save Preferences</Button>
+              <Button onClick={handleNotificationsSave}>{t('saveChanges')}</Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -207,29 +209,29 @@ const Settings = () => {
         <TabsContent value="billing" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Billing Information</CardTitle>
+              <CardTitle>{t('billingInformation')}</CardTitle>
               <CardDescription>
-                Manage your billing information and payment methods
+                {t('billingInformationDesc')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
-                <h3 className="font-medium">Current Plan</h3>
+                <h3 className="font-medium">{t('currentPlan')}</h3>
                 <div className="rounded-lg border p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-lg font-semibold">Business Plan</div>
+                      <div className="text-lg font-semibold">{t('businessPlan')}</div>
                       <div className="text-sm text-muted-foreground">
-                        $99/month, billed monthly
+                        {t('planBillingInfo')}
                       </div>
                     </div>
-                    <Button variant="outline">Change Plan</Button>
+                    <Button variant="outline">{t('changePlan')}</Button>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-medium">Payment Method</h3>
+                <h3 className="font-medium">{t('paymentMethods')}</h3>
                 <div className="rounded-lg border p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -251,26 +253,26 @@ const Settings = () => {
                         </svg>
                       </div>
                       <div>
-                        <div className="font-medium">Visa ending in 4242</div>
+                        <div className="font-medium">{t('cardInfo')}</div>
                         <div className="text-sm text-muted-foreground">
-                          Expires 12/2025
+                          {t('cardExpiry')}
                         </div>
                       </div>
                     </div>
-                    <Button variant="ghost">Edit</Button>
+                    <Button variant="ghost">{t('edit')}</Button>
                   </div>
                 </div>
-                <Button variant="outline">Add Payment Method</Button>
+                <Button variant="outline">{t('addPaymentMethod')}</Button>
               </div>
 
               <div className="space-y-4">
-                <h3 className="font-medium">Billing Address</h3>
+                <h3 className="font-medium">{t('billingAddress')}</h3>
                 <div className="space-y-2">
-                  <Label htmlFor="billingName">Name</Label>
+                  <Label htmlFor="billingName">{t('name')}</Label>
                   <Input id="billingName" defaultValue="Acme Inc." />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="billingAddress">Address</Label>
+                  <Label htmlFor="billingAddress">{t('address')}</Label>
                   <Textarea
                     id="billingAddress"
                     defaultValue="123 Main St, San Francisco, CA 94105"
@@ -278,41 +280,41 @@ const Settings = () => {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div className="space-y-2">
-                    <Label htmlFor="country">Country</Label>
+                    <Label htmlFor="country">{t('country')}</Label>
                     <Select defaultValue="us">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select country" />
+                        <SelectValue placeholder={t('selectCountry')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="us">United States</SelectItem>
-                        <SelectItem value="ca">Canada</SelectItem>
-                        <SelectItem value="uk">United Kingdom</SelectItem>
+                        <SelectItem value="us">{t('unitedStates')}</SelectItem>
+                        <SelectItem value="ca">{t('canada')}</SelectItem>
+                        <SelectItem value="uk">{t('unitedKingdom')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="state">State/Province</Label>
+                    <Label htmlFor="state">{t('stateProvince')}</Label>
                     <Select defaultValue="ca">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select state" />
+                        <SelectValue placeholder={t('selectState')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="ca">California</SelectItem>
-                        <SelectItem value="ny">New York</SelectItem>
-                        <SelectItem value="tx">Texas</SelectItem>
+                        <SelectItem value="ca">{t('california')}</SelectItem>
+                        <SelectItem value="ny">{t('newYork')}</SelectItem>
+                        <SelectItem value="tx">{t('texas')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="zipCode">ZIP/Postal Code</Label>
+                    <Label htmlFor="zipCode">{t('zipCode')}</Label>
                     <Input id="zipCode" defaultValue="94105" />
                   </div>
                 </div>
               </div>
             </CardContent>
             <CardFooter className="flex justify-end space-x-4">
-              <Button variant="outline">Cancel</Button>
-              <Button>Save Changes</Button>
+              <Button variant="outline">{t('cancel')}</Button>
+              <Button>{t('saveChanges')}</Button>
             </CardFooter>
           </Card>
         </TabsContent>

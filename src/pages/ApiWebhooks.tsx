@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Mock API keys data
 const initialApiKeys = [
@@ -80,6 +81,7 @@ const ApiWebhooks = () => {
   const [apiKeys, setApiKeys] = useState(initialApiKeys);
   const [webhooks, setWebhooks] = useState(initialWebhooks);
   const [showKeys, setShowKeys] = useState<Record<string, boolean>>({});
+  const { t } = useLanguage();
 
   const toggleKeyVisibility = (id: string) => {
     setShowKeys((prev) => ({
@@ -91,9 +93,9 @@ const ApiWebhooks = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">API & Webhooks</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t('apiWebhooks')}</h1>
         <p className="text-muted-foreground">
-          Manage your API keys and webhook endpoints
+          {t('apiKeysSubtitle')}
         </p>
       </div>
 
@@ -101,11 +103,11 @@ const ApiWebhooks = () => {
         <TabsList className="grid w-full grid-cols-2 max-w-sm">
           <TabsTrigger value="api-keys" className="flex items-center gap-2">
             <Key className="h-4 w-4" />
-            API Keys
+            {t('apiKeysTitle')}
           </TabsTrigger>
           <TabsTrigger value="webhooks" className="flex items-center gap-2">
             <Webhook className="h-4 w-4" />
-            Webhooks
+            {t('webhooksTitle')}
           </TabsTrigger>
         </TabsList>
         
@@ -113,14 +115,14 @@ const ApiWebhooks = () => {
         <TabsContent value="api-keys" className="space-y-6 mt-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold">API Keys</h2>
+              <h2 className="text-xl font-semibold">{t('apiKeysTitle')}</h2>
               <p className="text-sm text-muted-foreground">
-                Create and manage your API keys for authentication
+                {t('apiKeysSubtitle')}
               </p>
             </div>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create API Key
+              {t('createApiKey')}
             </Button>
           </div>
 
@@ -129,11 +131,11 @@ const ApiWebhooks = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Key</TableHead>
-                    <TableHead>Created</TableHead>
-                    <TableHead>Last Used</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>{t('name')}</TableHead>
+                    <TableHead>{t('key')}</TableHead>
+                    <TableHead>{t('created')}</TableHead>
+                    <TableHead>{t('lastUsed')}</TableHead>
+                    <TableHead>{t('status')}</TableHead>
                     <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
@@ -157,7 +159,7 @@ const ApiWebhooks = () => {
                             ) : (
                               <Eye className="h-3.5 w-3.5" />
                             )}
-                            <span className="sr-only">Toggle visibility</span>
+                            <span className="sr-only">{t('changeLanguage')}</span>
                           </Button>
                           <Button 
                             variant="ghost" 
@@ -166,7 +168,7 @@ const ApiWebhooks = () => {
                             onClick={() => navigator.clipboard.writeText(apiKey.key)}
                           >
                             <Copy className="h-3.5 w-3.5" />
-                            <span className="sr-only">Copy</span>
+                            <span className="sr-only">{t('copy')}</span>
                           </Button>
                         </div>
                       </TableCell>
@@ -174,7 +176,7 @@ const ApiWebhooks = () => {
                       <TableCell>{apiKey.lastUsed}</TableCell>
                       <TableCell>
                         <Badge variant={apiKey.status === "active" ? "default" : "secondary"}>
-                          {apiKey.status === "active" ? "Active" : "Inactive"}
+                          {apiKey.status === "active" ? t('active') : t('inactive')}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -249,7 +251,7 @@ const ApiWebhooks = () => {
             </div>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create Webhook
+              {t('createWebhook')}
             </Button>
           </div>
 
@@ -283,7 +285,7 @@ const ApiWebhooks = () => {
                       <TableCell>{webhook.created}</TableCell>
                       <TableCell>
                         <Badge variant={webhook.status === "active" ? "default" : "secondary"}>
-                          {webhook.status === "active" ? "Active" : "Inactive"}
+                          {webhook.status === "active" ? t('active') : t('inactive')}
                         </Badge>
                       </TableCell>
                       <TableCell>

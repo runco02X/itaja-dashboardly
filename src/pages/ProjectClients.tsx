@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Plus, Search, Filter, MoreHorizontal, Download, ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,22 +22,22 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 
@@ -181,6 +182,7 @@ interface ClientFormValues {
 
 const ProjectClients = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [projectClients, setProjectClients] = useState<any[]>([]);
   const [projectDetails, setProjectDetails] = useState<any>(null);
@@ -209,7 +211,7 @@ const ProjectClients = () => {
     setProjectSubscriptions(subscriptions);
   }, [projectId]);
 
-  const filteredClients = projectClients.filter(client => 
+  const filteredClients = projectClients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     client.plan.toLowerCase().includes(searchTerm.toLowerCase())
@@ -218,7 +220,7 @@ const ProjectClients = () => {
   const onSubmit = (data: ClientFormValues) => {
     // Find the plan details for the selected planId
     const selectedPlan = projectSubscriptions.find(plan => plan.id === data.planId);
-    
+
     // Create new client
     const newClient = {
       id: `${Date.now()}`,
@@ -231,10 +233,10 @@ const ProjectClients = () => {
       lastPayment: "Just now",
       avatar: "",
     };
-    
+
     // Add to clients
     setProjectClients(prev => [...prev, newClient]);
-    
+
     // Close dialog and reset form
     setDialogOpen(false);
     form.reset();
@@ -254,29 +256,29 @@ const ProjectClients = () => {
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} Clients</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} {t('clients')}</h1>
           </div>
           <p className="text-muted-foreground mt-1">
-            Manage clients for this project
+            {t('manageClients')}
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button variant="outline" className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
-            Export
+            {t('export')}
           </Button>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button className="w-full sm:w-auto">
                 <Plus className="mr-2 h-4 w-4" />
-                Add Client
+                {t('createClient')}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add New Client</DialogTitle>
+                <DialogTitle>{t('createNewClient')}</DialogTitle>
                 <DialogDescription>
-                  Add a new client to {projectDetails.name}
+                  {t('addClientTo')} {projectDetails.name}
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
@@ -286,7 +288,7 @@ const ProjectClients = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>{t('name')}</FormLabel>
                         <FormControl>
                           <Input placeholder="e.g. John Smith" {...field} />
                         </FormControl>
@@ -299,7 +301,7 @@ const ProjectClients = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{t('email')}</FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="client@example.com" {...field} />
                         </FormControl>
@@ -312,13 +314,13 @@ const ProjectClients = () => {
                     name="planId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Subscription Plan</FormLabel>
+                        <FormLabel>{t('plan')}</FormLabel>
                         <FormControl>
                           <select
                             className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
                             {...field}
                           >
-                            <option value="">Select a plan</option>
+                            <option value="">{t('selectEvents')}</option>
                             {projectSubscriptions.map(plan => (
                               <option key={plan.id} value={plan.id}>
                                 {plan.name} (${plan.price})
@@ -331,7 +333,7 @@ const ProjectClients = () => {
                     )}
                   />
                   <DialogFooter>
-                    <Button type="submit">Add Client</Button>
+                    <Button type="submit">{t('createClient')}</Button>
                   </DialogFooter>
                 </form>
               </Form>
@@ -344,7 +346,7 @@ const ProjectClients = () => {
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search clients..."
+            placeholder={t('searchClients')}
             className="w-full pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -352,7 +354,7 @@ const ProjectClients = () => {
         </div>
         <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
           <Filter className="h-4 w-4" />
-          <span className="sr-only">Filter</span>
+          <span className="sr-only">{t('filter')}</span>
         </Button>
       </div>
 
@@ -360,11 +362,11 @@ const ProjectClients = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Client</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Plan</TableHead>
-              <TableHead>Spent</TableHead>
-              <TableHead>Last Payment</TableHead>
+              <TableHead>{t('client')}</TableHead>
+              <TableHead>{t('status')}</TableHead>
+              <TableHead>{t('plan')}</TableHead>
+              <TableHead>{t('spent')}</TableHead>
+              <TableHead>{t('lastPayment')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -392,11 +394,11 @@ const ProjectClients = () => {
                     <div className="flex items-center gap-2">
                       {client.status === "active" ? (
                         <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                          Active
+                          {t('active')}
                         </Badge>
                       ) : (
                         <Badge variant="outline" className="bg-muted text-muted-foreground">
-                          Inactive
+                          {t('inactive')}
                         </Badge>
                       )}
                     </div>
@@ -409,15 +411,15 @@ const ProjectClients = () => {
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8">
                           <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Actions</span>
+                          <span className="sr-only">{t('actions')}</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Payment History</DropdownMenuItem>
+                        <DropdownMenuItem>{t('viewDetails')}</DropdownMenuItem>
+                        <DropdownMenuItem>{t('edit')}</DropdownMenuItem>
+                        <DropdownMenuItem>{t('billingHistory')}</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">
-                          Delete
+                          {t('delete')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -429,8 +431,8 @@ const ProjectClients = () => {
                 <TableCell colSpan={6} className="h-24 text-center">
                   <div className="flex flex-col items-center justify-center text-muted-foreground">
                     <User className="h-8 w-8 mb-2" />
-                    <p>No clients found for this project.</p>
-                    <p className="text-sm">Add a new client to get started.</p>
+                    <p>{t('noClientsYet')}</p>
+                    <p className="text-sm">{t('createYourFirstProject')}</p>
                   </div>
                 </TableCell>
               </TableRow>

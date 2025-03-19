@@ -1,7 +1,10 @@
 
-import { Bell, Menu, X } from "lucide-react";
+import { Bell, Menu, X, User, LogOut, Settings as SettingsIcon } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSelector } from "@/components/language-selector";
+import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "@/context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +21,14 @@ interface TopBarProps {
 }
 
 export function TopBar({ sidebarOpen, onSidebarOpenChange }: TopBarProps) {
+  const { user, logout } = useAuth();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center gap-4 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Button
@@ -75,6 +86,36 @@ export function TopBar({ sidebarOpen, onSidebarOpenChange }: TopBarProps) {
         </DropdownMenu>
         
         <ThemeToggle />
+        
+        {/* User Profile Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-4 w-4" />}
+              </div>
+              <span className="sr-only">User menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user?.name || 'User'}</p>
+                <p className="text-xs leading-none text-muted-foreground">{user?.email || ''}</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate('/settings')}>
+              <SettingsIcon className="mr-2 h-4 w-4" />
+              {t('settings')}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              {t('logout')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

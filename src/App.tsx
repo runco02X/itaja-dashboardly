@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./context/LanguageContext";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Projects from "@/pages/Projects";
@@ -15,77 +17,100 @@ import PaymentLogs from "@/pages/PaymentLogs";
 import ApiWebhooks from "@/pages/ApiWebhooks";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
+            {/* Authentication Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Dashboard Routes - Protected */}
             <Route 
               path="/" 
               element={
-                <DashboardLayout>
-                  <Projects />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <Projects />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/projects/:projectId" 
               element={
-                <DashboardLayout>
-                  <ProjectDashboard />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ProjectDashboard />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/projects/:projectId/subscriptions" 
               element={
-                <DashboardLayout>
-                  <ProjectSubscriptions />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ProjectSubscriptions />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/projects/:projectId/clients" 
               element={
-                <DashboardLayout>
-                  <ProjectClients />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ProjectClients />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/payment-logs" 
               element={
-                <DashboardLayout>
-                  <PaymentLogs />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <PaymentLogs />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/api-webhooks" 
               element={
-                <DashboardLayout>
-                  <ApiWebhooks />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <ApiWebhooks />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route 
               path="/settings" 
               element={
-                <DashboardLayout>
-                  <Settings />
-                </DashboardLayout>
+                <ProtectedRoute>
+                  <DashboardLayout>
+                    <Settings />
+                  </DashboardLayout>
+                </ProtectedRoute>
               } 
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </TooltipProvider>
+        </TooltipProvider>
+      </AuthProvider>
     </LanguageProvider>
   </QueryClientProvider>
 );
