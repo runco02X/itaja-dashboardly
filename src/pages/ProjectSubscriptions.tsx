@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Plus, Search, Filter, MoreHorizontal, CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,8 +32,9 @@ import {
   FormMessage 
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 
-// Mock data for all projects
 const projectsData = [
   {
     id: "1",
@@ -58,7 +58,6 @@ const projectsData = [
   },
 ];
 
-// Mock data for subscriptions by project
 const subscriptionsByProject = {
   "1": [
     {
@@ -140,7 +139,6 @@ const subscriptionsByProject = {
   ]
 };
 
-// Form type
 interface SubscriptionFormValues {
   name: string;
   description: string;
@@ -152,6 +150,8 @@ interface SubscriptionFormValues {
 const ProjectSubscriptions = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [projectSubscriptions, setProjectSubscriptions] = useState<any[]>([]);
   const [projectDetails, setProjectDetails] = useState<any>(null);
@@ -168,11 +168,9 @@ const ProjectSubscriptions = () => {
   });
 
   useEffect(() => {
-    // Find project details
     const project = projectsData.find(p => p.id === projectId);
     setProjectDetails(project || null);
 
-    // Get subscriptions for this project
     const subscriptions = subscriptionsByProject[projectId as keyof typeof subscriptionsByProject] || [];
     setProjectSubscriptions(subscriptions);
   }, [projectId]);
@@ -182,11 +180,17 @@ const ProjectSubscriptions = () => {
     plan.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleBackClick = () => {
+    navigate(`/projects/${projectId}`);
+    toast({
+      title: t('returningToProject'),
+      description: projectDetails?.name || t('project'),
+    });
+  };
+
   const onSubmit = (data: SubscriptionFormValues) => {
-    // Parse features from comma-separated string to array
     const featuresArray = data.features.split(',').map(feature => feature.trim());
     
-    // Create new subscription
     const newSubscription = {
       id: `${Date.now()}`,
       name: data.name,
@@ -198,10 +202,8 @@ const ProjectSubscriptions = () => {
       subscribers: 0
     };
     
-    // Add to subscriptions
     setProjectSubscriptions(prev => [...prev, newSubscription]);
     
-    // Close dialog and reset form
     setDialogOpen(false);
     form.reset();
   };
@@ -210,17 +212,56 @@ const ProjectSubscriptions = () => {
     return <div>{t('projectNotFound')}</div>;
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.05 
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    },
+    hover: {
+      y: -5,
+      boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)",
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      className="space-y-6"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <Link to="/projects">
-              <Button variant="ghost" size="icon" className="flex items-center gap-1">
-                <ArrowLeft className="h-4 w-4" />
-                <span>{t('back')}</span>
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              className="flex items-center gap-1 group relative overflow-hidden hover:bg-transparent" 
+              onClick={handleBackClick}
+            >
+              <span className="absolute inset-0 bg-primary-foreground/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></span>
+              <ArrowLeft className="h-4 w-4 group-hover:text-primary transition-colors" />
+              <span className="group-hover:text-primary transition-colors">{t('back')}</span>
+            </Button>
             <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} {t('subscriptions')}</h1>
           </div>
           <p className="text-muted-foreground mt-1">
@@ -229,9 +270,10 @@ const ProjectSubscriptions = () => {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="w-full sm:w-auto">
-              <Plus className="mr-2 h-4 w-4" />
-              {t('newPlan')}
+            <Button className="w-full sm:w-auto group relative overflow-hidden">
+              <span className="absolute inset-0 bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-all duration-300"></span>
+              <Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90 duration-300" />
+              <span className="relative z-10">{t('newPlan')}</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -329,79 +371,99 @@ const ProjectSubscriptions = () => {
         </Dialog>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col gap-4 sm:flex-row"
+      >
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder={t('searchPlans')}
-            className="w-full pl-8"
+            className="w-full pl-8 focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-300"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="h-10 w-10 shrink-0 hover:bg-primary/5 transition-colors"
+        >
           <Filter className="h-4 w-4" />
           <span className="sr-only">{t('filter')}</span>
         </Button>
-      </div>
+      </motion.div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      >
         {filteredSubscriptions.map((plan) => (
-          <Card key={plan.id} className={cn(
-            "flex flex-col transition-all hover:shadow-md",
-            plan.status === "inactive" && "opacity-70"
-          )}>
-            <CardHeader className="pb-2 relative">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="absolute right-4 top-4 h-8 w-8"
-              >
-                <MoreHorizontal className="h-4 w-4" />
-                <span className="sr-only">{t('actions')}</span>
-              </Button>
-              <div className="flex items-center gap-2">
-                <div className="rounded-md bg-primary/10 p-2 text-primary">
-                  <CreditCard className="h-4 w-4" />
-                </div>
-                <div>
-                  <CardTitle className="text-lg">{plan.name}</CardTitle>
-                </div>
-              </div>
-              <CardDescription className="line-clamp-2 h-10">
-                {plan.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 flex flex-col gap-4">
-              <div className="flex items-end gap-1">
-                <span className="text-3xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground">/{t(plan.frequency as 'monthly' | 'yearly' | 'quarterly')}</span>
-              </div>
-              
-              <div className="space-y-2">
-                {plan.features.map((feature: string, index: number) => (
-                  <div key={index} className="flex items-center gap-2 text-sm">
-                    <CheckCircle className="h-4 w-4 text-success" />
-                    <span>{feature}</span>
+          <motion.div
+            key={plan.id}
+            variants={itemVariants}
+            whileHover="hover"
+          >
+            <Card className={cn(
+              "flex flex-col transition-all hover:shadow-md",
+              plan.status === "inactive" && "opacity-70"
+            )}>
+              <CardHeader className="pb-2 relative">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="absolute right-4 top-4 h-8 w-8"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                  <span className="sr-only">{t('actions')}</span>
+                </Button>
+                <div className="flex items-center gap-2">
+                  <div className="rounded-md bg-primary/10 p-2 text-primary">
+                    <CreditCard className="h-4 w-4" />
                   </div>
-                ))}
-              </div>
-              
-              <div className="mt-auto pt-4 flex justify-between items-center text-xs text-muted-foreground border-t">
-                <div className="flex items-center gap-1">
-                  <Badge variant={plan.status === "active" ? "default" : "secondary"}>
-                    {plan.status === "active" ? t('active') : t('inactive')}
-                  </Badge>
+                  <div>
+                    <CardTitle className="text-lg">{plan.name}</CardTitle>
+                  </div>
                 </div>
-                <div>
-                  {plan.subscribers} {t('subscribers')}
+                <CardDescription className="line-clamp-2 h-10">
+                  {plan.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col gap-4">
+                <div className="flex items-end gap-1">
+                  <span className="text-3xl font-bold">${plan.price}</span>
+                  <span className="text-muted-foreground">/{t(plan.frequency as 'monthly' | 'yearly' | 'quarterly')}</span>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                
+                <div className="space-y-2">
+                  {plan.features.map((feature: string, index: number) => (
+                    <div key={index} className="flex items-center gap-2 text-sm">
+                      <CheckCircle className="h-4 w-4 text-success" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-auto pt-4 flex justify-between items-center text-xs text-muted-foreground border-t">
+                  <div className="flex items-center gap-1">
+                    <Badge variant={plan.status === "active" ? "default" : "secondary"}>
+                      {plan.status === "active" ? t('active') : t('inactive')}
+                    </Badge>
+                  </div>
+                  <div>
+                    {plan.subscribers} {t('subscribers')}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

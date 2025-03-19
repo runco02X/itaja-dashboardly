@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Plus, Search, Filter, MoreHorizontal, Download, ArrowLeft, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,8 +39,9 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 
-// Mock data for all projects
 const projectsData = [
   {
     id: "1",
@@ -65,7 +65,6 @@ const projectsData = [
   },
 ];
 
-// Mock subscription data by project
 const subscriptionsByProject = {
   "1": [
     { id: "101", name: "Basic SaaS Plan", price: 29 },
@@ -84,7 +83,6 @@ const subscriptionsByProject = {
   ]
 };
 
-// Mock data for clients by project
 const clientsByProject = {
   "1": [
     {
@@ -173,7 +171,6 @@ const clientsByProject = {
   ],
 };
 
-// Form type
 interface ClientFormValues {
   name: string;
   email: string;
@@ -183,6 +180,8 @@ interface ClientFormValues {
 const ProjectClients = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [projectClients, setProjectClients] = useState<any[]>([]);
   const [projectDetails, setProjectDetails] = useState<any>(null);
@@ -198,15 +197,12 @@ const ProjectClients = () => {
   });
 
   useEffect(() => {
-    // Find project details
     const project = projectsData.find(p => p.id === projectId);
     setProjectDetails(project || null);
 
-    // Get clients for this project
     const clients = clientsByProject[projectId as keyof typeof clientsByProject] || [];
     setProjectClients(clients);
 
-    // Get subscriptions for this project (for the dropdown)
     const subscriptions = subscriptionsByProject[projectId as keyof typeof subscriptionsByProject] || [];
     setProjectSubscriptions(subscriptions);
   }, [projectId]);
@@ -217,11 +213,17 @@ const ProjectClients = () => {
     client.plan.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleBackClick = () => {
+    navigate(`/projects/${projectId}`);
+    toast({
+      title: t('returningToProject'),
+      description: projectDetails?.name || t('project'),
+    });
+  };
+
   const onSubmit = (data: ClientFormValues) => {
-    // Find the plan details for the selected planId
     const selectedPlan = projectSubscriptions.find(plan => plan.id === data.planId);
 
-    // Create new client
     const newClient = {
       id: `${Date.now()}`,
       name: data.name,
@@ -234,10 +236,7 @@ const ProjectClients = () => {
       avatar: "",
     };
 
-    // Add to clients
     setProjectClients(prev => [...prev, newClient]);
-
-    // Close dialog and reset form
     setDialogOpen(false);
     form.reset();
   };
@@ -246,16 +245,48 @@ const ProjectClients = () => {
     return <div>Project not found</div>;
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      className="space-y-6"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <Link to="/projects">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="group relative overflow-hidden" 
+              onClick={handleBackClick}
+            >
+              <span className="absolute inset-0 bg-primary-foreground/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></span>
+              <ArrowLeft className="h-4 w-4 group-hover:text-primary transition-colors" />
+              <span className="sr-only">{t('back')}</span>
+            </Button>
             <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} {t('clients')}</h1>
           </div>
           <p className="text-muted-foreground mt-1">
@@ -263,15 +294,16 @@ const ProjectClients = () => {
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
-          <Button variant="outline" className="w-full sm:w-auto">
-            <Download className="mr-2 h-4 w-4" />
+          <Button variant="outline" className="w-full sm:w-auto group">
+            <Download className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" />
             {t('export')}
           </Button>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto">
-                <Plus className="mr-2 h-4 w-4" />
-                {t('createClient')}
+              <Button className="w-full sm:w-auto group relative overflow-hidden">
+                <span className="absolute inset-0 bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-all duration-300"></span>
+                <Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90 duration-300" />
+                <span className="relative z-10">{t('createClient')}</span>
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -342,23 +374,35 @@ const ProjectClients = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col gap-4 sm:flex-row"
+      >
         <div className="relative w-full sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder={t('searchClients')}
-            className="w-full pl-8"
+            className="w-full pl-8 focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-300"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <Button variant="outline" size="icon" className="h-10 w-10 shrink-0">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className="h-10 w-10 shrink-0 hover:bg-primary/5 transition-colors"
+        >
           <Filter className="h-4 w-4" />
           <span className="sr-only">{t('filter')}</span>
         </Button>
-      </div>
+      </motion.div>
 
-      <div className="rounded-lg border">
+      <motion.div 
+        variants={itemVariants}
+        className="rounded-lg border shadow-sm overflow-hidden"
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -439,8 +483,8 @@ const ProjectClients = () => {
             )}
           </TableBody>
         </Table>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
