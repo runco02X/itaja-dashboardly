@@ -1,6 +1,6 @@
 
 import { useTranslation } from "@/hooks/useTranslation";
-import { ArrowLeft, Download, Plus } from "lucide-react";
+import { ArrowLeft, Download, Plus, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
@@ -9,13 +9,15 @@ interface ClientsPageHeaderProps {
   onBackClick: () => void;
   onExportClick: () => void;
   onCreateClick: () => void;
+  onImportClick: () => void;
 }
 
 export function ClientsPageHeader({ 
   projectName, 
   onBackClick, 
   onExportClick, 
-  onCreateClick 
+  onCreateClick,
+  onImportClick
 }: ClientsPageHeaderProps) {
   const { t } = useTranslation();
 
@@ -54,6 +56,14 @@ export function ClientsPageHeader({
         >
           <Download className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" />
           {t('export')}
+        </Button>
+        <Button 
+          variant="outline"
+          className="w-full sm:w-auto group"
+          onClick={onImportClick}
+        >
+          <Upload className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" />
+          {t('importClients')}
         </Button>
         <Button 
           className="w-full sm:w-auto group relative overflow-hidden"

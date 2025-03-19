@@ -1,14 +1,17 @@
 
-import { TrendingUp, Users, Activity, ArrowDownRight, CreditCard } from "lucide-react";
+import { TrendingUp, Users, Activity, ArrowDownRight, CreditCard, ArrowLeft } from "lucide-react";
 import { StatisticCard } from "@/components/dashboard/statistic-card";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { SubscriptionChart } from "@/components/dashboard/subscription-chart";
 import { RecentActivities } from "@/components/dashboard/recent-activities";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
 
 const ProjectDashboard = () => {
   const { projectId } = useParams();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   
   // Mock project data based on ID
   const getProjectName = () => {
@@ -23,6 +26,17 @@ const ProjectDashboard = () => {
 
   return (
     <div className="space-y-6">
+      <div className="mb-4">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => navigate('/projects')} 
+          className="flex items-center text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          {t('back')} {t('projects')}
+        </Button>
+      </div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{getProjectName()}</h1>

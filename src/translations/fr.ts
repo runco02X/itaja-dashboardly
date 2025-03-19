@@ -28,6 +28,7 @@ export const fr = {
   password: "Mot de passe",
   confirmPassword: "Confirmer le mot de passe",
   fullName: "Nom complet",
+  email: "Email",
   orContinueWith: "Ou continuer avec",
   passwordsDontMatch: "Les mots de passe ne correspondent pas",
   logout: "Déconnexion",
@@ -37,6 +38,16 @@ export const fr = {
   privacy: "Politique de confidentialité",
   loginPageDescription: "Gérez vos abonnements, clients et paiements en un seul endroit.",
   registerPageDescription: "Rejoignez des milliers d'entreprises qui utilisent Itaja pour gérer leurs paiements d'abonnement.",
+  enterEmailForPasswordReset: "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+  sendResetLink: "Envoyer le lien de réinitialisation",
+  sending: "Envoi en cours...",
+  backToLogin: "Retour à la connexion",
+  passwordResetEmailSent: "E-mail de réinitialisation envoyé",
+  passwordResetEmailSentDescription: "Nous vous avons envoyé un e-mail avec des instructions pour réinitialiser votre mot de passe.",
+  passwordResetInstructions: "Vérifiez votre e-mail pour obtenir un lien de réinitialisation de mot de passe.",
+  passwordResetError: "Un problème est survenu lors de l'envoi de l'e-mail de réinitialisation. Veuillez réessayer.",
+  checkEmailForInstructions: "Consultez votre e-mail pour plus d'instructions.",
+  error: "Erreur",
 
   // Projects page
   projectsTitle: "Projets",
@@ -161,7 +172,7 @@ export const fr = {
   accountInformation: "Informations du Compte",
   accountInfoSubtitle: "Mettez à jour les informations de votre entreprise et vos coordonnées",
   businessName: "Nom de l'Entreprise",
-  email: "Adresse Email",
+  emailAddress: "Adresse Email",
   phone: "Numéro de Téléphone",
   businessAddress: "Adresse de l'Entreprise",
   security: "Sécurité",
@@ -234,7 +245,7 @@ export const fr = {
   // Common
   returnToDashboard: "Retour au Tableau de Bord",
   noData: "Aucune donnée disponible",
-  error: "Une erreur est survenue",
+  errorOccurred: "Une erreur est survenue",
   tryAgain: "Réessayer",
   welcome: "Bienvenue sur Itaja",
   today: "Aujourd'hui",
@@ -268,4 +279,15 @@ export const fr = {
   refresh: "Rafraîchir",
   readMore: "Lire la suite",
   loading: "Chargement...",
+
+  // Client Import
+  importClients: "Importer des Clients",
+  importClientsDescription: "Téléchargez un fichier CSV ou Excel pour importer des clients vers {{projectName}}",
+  dragAndDropFile: "Glissez et déposez votre fichier ici",
+  supportedFormats: "Formats pris en charge: CSV, XLS, XLSX",
+  browseFiles: "Parcourir les Fichiers",
+  needTemplate: "Besoin d'un modèle?",
+  downloadTemplate: "Télécharger le modèle",
+  invalidFileType: "Type de fichier invalide. Veuillez télécharger un fichier CSV ou Excel.",
+  fileTooLarge: "Le fichier est trop volumineux. La taille maximale est de 5 Mo.",
 };

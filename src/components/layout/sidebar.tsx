@@ -2,7 +2,8 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
+import { TranslationKey } from "@/translations";
 import {
   Activity,
   CreditCard,
@@ -22,13 +23,13 @@ interface SidebarProps {
 
 interface SidebarItemProps {
   icon: ReactNode;
-  titleKey: string;
+  titleKey: TranslationKey;
   path: string;
   active: boolean;
 }
 
 const SidebarItem = ({ icon, titleKey, path, active }: SidebarItemProps) => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <NavLink
@@ -41,7 +42,7 @@ const SidebarItem = ({ icon, titleKey, path, active }: SidebarItemProps) => {
       )}
     >
       <div className="h-5 w-5 shrink-0">{icon}</div>
-      <span>{t(titleKey as any)}</span>
+      <span>{t(titleKey)}</span>
     </NavLink>
   );
 };
@@ -49,7 +50,7 @@ const SidebarItem = ({ icon, titleKey, path, active }: SidebarItemProps) => {
 export function Sidebar({ open, onOpenChange }: SidebarProps) {
   const location = useLocation();
   const pathname = location.pathname;
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const isActive = (path: string) => {
     // For root path

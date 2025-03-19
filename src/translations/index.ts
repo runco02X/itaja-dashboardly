@@ -37,6 +37,7 @@ export type TranslationKeys = {
   password: string;
   confirmPassword: string;
   fullName: string;
+  email: string;
   orContinueWith: string;
   passwordsDontMatch: string;
   logout: string;
@@ -46,6 +47,16 @@ export type TranslationKeys = {
   privacy: string;
   loginPageDescription: string;
   registerPageDescription: string;
+  enterEmailForPasswordReset: string;
+  sendResetLink: string;
+  sending: string;
+  backToLogin: string;
+  passwordResetEmailSent: string;
+  passwordResetEmailSentDescription: string;
+  passwordResetInstructions: string;
+  passwordResetError: string;
+  checkEmailForInstructions: string;
+  error: string;
 
   // Projects page
   projectsTitle: string;
@@ -170,7 +181,7 @@ export type TranslationKeys = {
   accountInformation: string;
   accountInfoSubtitle: string;
   businessName: string;
-  email: string;
+  emailAddress: string;
   phone: string;
   businessAddress: string;
   security: string;
@@ -245,7 +256,7 @@ export type TranslationKeys = {
   // Common
   returnToDashboard: string;
   noData: string;
-  error: string;
+  errorOccurred: string;
   tryAgain: string;
   welcome: string;
   today: string;
@@ -260,6 +271,17 @@ export type TranslationKeys = {
   search: string;
   clear: string;
   apply: string;
+  
+  // Client Import
+  importClients: string;
+  importClientsDescription: string;
+  dragAndDropFile: string;
+  supportedFormats: string;
+  browseFiles: string;
+  needTemplate: string;
+  downloadTemplate: string;
+  invalidFileType: string;
+  fileTooLarge: string;
 
   // Error pages
   pageNotFound: string;

@@ -28,6 +28,7 @@ export const enUS = {
   password: "Password",
   confirmPassword: "Confirm Password",
   fullName: "Full Name",
+  email: "Email",
   orContinueWith: "Or continue with",
   passwordsDontMatch: "Passwords don't match",
   logout: "Logout",
@@ -37,6 +38,16 @@ export const enUS = {
   privacy: "Privacy Policy",
   loginPageDescription: "Manage your subscriptions, clients, and payments all in one place.",
   registerPageDescription: "Join thousands of businesses using Itaja to manage their subscription payments.",
+  enterEmailForPasswordReset: "Enter your email address and we'll send you a link to reset your password.",
+  sendResetLink: "Send reset link",
+  sending: "Sending...",
+  backToLogin: "Back to login",
+  passwordResetEmailSent: "Password reset email sent",
+  passwordResetEmailSentDescription: "We've sent you an email with instructions to reset your password.",
+  passwordResetInstructions: "Check your email for a link to reset your password.",
+  passwordResetError: "There was a problem sending the password reset email. Please try again.",
+  checkEmailForInstructions: "Check your email for further instructions.",
+  error: "Error",
 
   // Projects page
   projectsTitle: "Projects",
@@ -161,7 +172,7 @@ export const enUS = {
   accountInformation: "Account Information",
   accountInfoSubtitle: "Update your business information and contact details",
   businessName: "Business Name",
-  email: "Email Address",
+  emailAddress: "Email Address",
   phone: "Phone Number",
   businessAddress: "Business Address",
   security: "Security",
@@ -234,7 +245,7 @@ export const enUS = {
   // Common
   returnToDashboard: "Return to Dashboard",
   noData: "No data available",
-  error: "An error occurred",
+  errorOccurred: "An error occurred",
   tryAgain: "Try again",
   welcome: "Welcome to Itaja",
   today: "Today",
@@ -268,4 +279,15 @@ export const enUS = {
   refresh: "Refresh",
   readMore: "Read more",
   loading: "Loading...",
+
+  // Client Import
+  importClients: "Import Clients",
+  importClientsDescription: "Upload a CSV or Excel file to import clients to {{projectName}}",
+  dragAndDropFile: "Drag and drop your file here",
+  supportedFormats: "Supported formats: CSV, XLS, XLSX",
+  browseFiles: "Browse Files",
+  needTemplate: "Need a template?",
+  downloadTemplate: "Download template",
+  invalidFileType: "Invalid file type. Please upload a CSV or Excel file.",
+  fileTooLarge: "File is too large. Maximum size is 5MB.",
 };

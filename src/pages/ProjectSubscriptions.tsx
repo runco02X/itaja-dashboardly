@@ -1,5 +1,23 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+// Types
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface Subscription {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  frequency: string;
+  features: string[];
+  status: string;
+  subscribers: number;
+}
 import { useTranslation } from "@/hooks/useTranslation";
 import { Plus, Search, Filter, MoreHorizontal, CreditCard, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -153,8 +171,8 @@ const ProjectSubscriptions = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
-  const [projectSubscriptions, setProjectSubscriptions] = useState<any[]>([]);
-  const [projectDetails, setProjectDetails] = useState<any>(null);
+  const [projectSubscriptions, setProjectSubscriptions] = useState<Subscription[]>([]);
+  const [projectDetails, setProjectDetails] = useState<Project | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const form = useForm<SubscriptionFormValues>({

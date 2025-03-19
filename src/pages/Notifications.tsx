@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -90,7 +90,7 @@ const initialNotifications = [
 const Notifications = () => {
   const [notifications, setNotifications] = useState(initialNotifications);
   const [searchTerm, setSearchTerm] = useState("");
-  const { t } = useLanguage();
+  const { t } = useTranslation();
 
   const filteredNotifications = notifications.filter(notification => 
     notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
