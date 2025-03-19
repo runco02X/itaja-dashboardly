@@ -1,3 +1,4 @@
+
 export const enUS = {
   // Navigation & Layout
   projects: "Projects",
@@ -228,7 +229,6 @@ export const enUS = {
   required: "Required",
   optional: "Optional",
   submit: "Submit",
-  loading: "Loading...",
   briefDescription: "Brief description",
   
   // Common
@@ -264,10 +264,8 @@ export const enUS = {
   closeMenu: "Close menu",
   previousPage: "Previous page",
   nextPage: "Next page",
-  loading: "Loading...",
-  required: "Required",
-  optional: "Optional",
   moreInfo: "More information",
   refresh: "Refresh",
   readMore: "Read more",
+  loading: "Loading...",
 };

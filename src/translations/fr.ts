@@ -1,3 +1,4 @@
+
 export const fr = {
   // Navigation & Layout
   projects: "Projets",
@@ -228,7 +229,6 @@ export const fr = {
   required: "Obligatoire",
   optional: "Optionnel",
   submit: "Soumettre",
-  loading: "Chargement...",
   briefDescription: "Brève description",
   
   // Common
@@ -264,10 +264,8 @@ export const fr = {
   closeMenu: "Fermer le menu",
   previousPage: "Page précédente",
   nextPage: "Page suivante",
-  loading: "Chargement...",
-  required: "Obligatoire",
-  optional: "Optionnel",
   moreInfo: "Plus d'informations",
   refresh: "Rafraîchir",
   readMore: "Lire la suite",
+  loading: "Chargement...",
 };
