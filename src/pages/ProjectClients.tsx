@@ -1,200 +1,27 @@
+
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
-import { Plus, Search, Filter, MoreHorizontal, Download, ArrowLeft, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-
-const projectsData = [
-  {
-    id: "1",
-    name: "SaaS Platform",
-    description: "Customer portal for SaaS subscription management",
-  },
-  {
-    id: "2",
-    name: "E-commerce API",
-    description: "Payment processing API for e-commerce platform",
-  },
-  {
-    id: "3",
-    name: "Mobile App Payments",
-    description: "In-app purchase system for mobile application",
-  },
-  {
-    id: "4",
-    name: "Membership Site",
-    description: "Recurring billing for membership-based website",
-  },
-];
-
-const subscriptionsByProject = {
-  "1": [
-    { id: "101", name: "Basic SaaS Plan", price: 29 },
-    { id: "102", name: "Pro SaaS Plan", price: 99 }
-  ],
-  "2": [
-    { id: "201", name: "API Starter", price: 49 },
-    { id: "202", name: "API Business", price: 199 }
-  ],
-  "3": [
-    { id: "301", name: "Mobile Basic", price: 19 }
-  ],
-  "4": [
-    { id: "401", name: "Membership Lite", price: 39 },
-    { id: "402", name: "Membership Pro", price: 129 }
-  ]
-};
-
-const clientsByProject = {
-  "1": [
-    {
-      id: "11",
-      name: "John Smith",
-      email: "john.smith@example.com",
-      status: "active",
-      plan: "Pro SaaS Plan",
-      planId: "102",
-      spent: 594,
-      lastPayment: "2 days ago",
-      avatar: "",
-    },
-    {
-      id: "12",
-      name: "Lisa Johnson",
-      email: "lisa.johnson@example.com",
-      status: "active",
-      plan: "Basic SaaS Plan",
-      planId: "101",
-      spent: 174,
-      lastPayment: "1 week ago",
-      avatar: "",
-    },
-  ],
-  "2": [
-    {
-      id: "21",
-      name: "Robert Wilson",
-      email: "robert.wilson@example.com",
-      status: "active",
-      plan: "API Business",
-      planId: "202",
-      spent: 1194,
-      lastPayment: "3 days ago",
-      avatar: "",
-    },
-    {
-      id: "22",
-      name: "Maria Garcia",
-      email: "maria.garcia@example.com",
-      status: "inactive",
-      plan: "API Starter",
-      planId: "201",
-      spent: 245,
-      lastPayment: "2 months ago",
-      avatar: "",
-    },
-  ],
-  "3": [
-    {
-      id: "31",
-      name: "David Lee",
-      email: "david.lee@example.com",
-      status: "inactive",
-      plan: "Mobile Basic",
-      planId: "301",
-      spent: 57,
-      lastPayment: "3 months ago",
-      avatar: "",
-    },
-  ],
-  "4": [
-    {
-      id: "41",
-      name: "Sarah Miller",
-      email: "sarah.miller@example.com",
-      status: "active",
-      plan: "Membership Pro",
-      planId: "402",
-      spent: 774,
-      lastPayment: "5 days ago",
-      avatar: "",
-    },
-    {
-      id: "42",
-      name: "Kevin Brown",
-      email: "kevin.brown@example.com",
-      status: "active",
-      plan: "Membership Lite",
-      planId: "401",
-      spent: 117,
-      lastPayment: "2 weeks ago",
-      avatar: "",
-    },
-  ],
-};
-
-interface ClientFormValues {
-  name: string;
-  email: string;
-  planId: string;
-}
+import { useProjectData } from "@/context/ProjectDataContext";
+import { ClientsPageHeader } from "@/components/project/ClientsPageHeader";
+import { ClientsSearchBar } from "@/components/project/ClientsSearchBar";
+import { ClientsTable } from "@/components/project/ClientsTable";
+import { ClientFormDialog, ClientFormValues } from "@/components/project/ClientFormDialog";
 
 const ProjectClients = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { projectsData, subscriptionsByProject, clientsByProject } = useProjectData();
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [projectClients, setProjectClients] = useState<any[]>([]);
   const [projectDetails, setProjectDetails] = useState<any>(null);
   const [projectSubscriptions, setProjectSubscriptions] = useState<any[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  const form = useForm<ClientFormValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      planId: "",
-    },
-  });
 
   useEffect(() => {
     const project = projectsData.find(p => p.id === projectId);
@@ -205,7 +32,7 @@ const ProjectClients = () => {
 
     const subscriptions = subscriptionsByProject[projectId as keyof typeof subscriptionsByProject] || [];
     setProjectSubscriptions(subscriptions);
-  }, [projectId]);
+  }, [projectId, projectsData, clientsByProject, subscriptionsByProject]);
 
   const filteredClients = projectClients.filter(client =>
     client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -221,7 +48,19 @@ const ProjectClients = () => {
     });
   };
 
-  const onSubmit = (data: ClientFormValues) => {
+  const handleExportClick = () => {
+    // Export functionality would go here
+    toast({
+      title: t('success'),
+      description: "Clients exported successfully",
+    });
+  };
+
+  const handleCreateClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleSubmit = (data: ClientFormValues) => {
     const selectedPlan = projectSubscriptions.find(plan => plan.id === data.planId);
 
     const newClient = {
@@ -238,7 +77,6 @@ const ProjectClients = () => {
 
     setProjectClients(prev => [...prev, newClient]);
     setDialogOpen(false);
-    form.reset();
   };
 
   if (!projectDetails) {
@@ -255,235 +93,39 @@ const ProjectClients = () => {
     }
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12
-      }
-    }
-  };
-
   return (
     <motion.div 
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }} 
       className="space-y-6"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="group relative overflow-hidden" 
-              onClick={handleBackClick}
-            >
-              <span className="absolute inset-0 bg-primary-foreground/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></span>
-              <ArrowLeft className="h-4 w-4 group-hover:text-primary transition-colors" />
-              <span className="sr-only">{t('back')}</span>
-            </Button>
-            <h1 className="text-3xl font-bold tracking-tight">{projectDetails.name} {t('clients')}</h1>
-          </div>
-          <p className="text-muted-foreground mt-1">
-            {t('manageClients')}
-          </p>
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Button variant="outline" className="w-full sm:w-auto group">
-            <Download className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" />
-            {t('export')}
-          </Button>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto group relative overflow-hidden">
-                <span className="absolute inset-0 bg-primary-foreground/10 group-hover:bg-primary-foreground/20 transition-all duration-300"></span>
-                <Plus className="mr-2 h-4 w-4 transition-transform group-hover:rotate-90 duration-300" />
-                <span className="relative z-10">{t('createClient')}</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t('createNewClient')}</DialogTitle>
-                <DialogDescription>
-                  {t('addClientTo')} {projectDetails.name}
-                </DialogDescription>
-              </DialogHeader>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('name')}</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. John Smith" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('email')}</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="client@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="planId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t('plan')}</FormLabel>
-                        <FormControl>
-                          <select
-                            className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                            {...field}
-                          >
-                            <option value="">{t('selectEvents')}</option>
-                            {projectSubscriptions.map(plan => (
-                              <option key={plan.id} value={plan.id}>
-                                {plan.name} (${plan.price})
-                              </option>
-                            ))}
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <DialogFooter>
-                    <Button type="submit">{t('createClient')}</Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+      <ClientsPageHeader 
+        projectName={projectDetails.name}
+        onBackClick={handleBackClick}
+        onExportClick={handleExportClick}
+        onCreateClick={handleCreateClick}
+      />
 
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-col gap-4 sm:flex-row"
       >
-        <div className="relative w-full sm:max-w-xs">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={t('searchClients')}
-            className="w-full pl-8 focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-300"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <Button 
-          variant="outline" 
-          size="icon" 
-          className="h-10 w-10 shrink-0 hover:bg-primary/5 transition-colors"
-        >
-          <Filter className="h-4 w-4" />
-          <span className="sr-only">{t('filter')}</span>
-        </Button>
+        <ClientsSearchBar 
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+        />
       </motion.div>
 
-      <motion.div 
-        variants={itemVariants}
-        className="rounded-lg border shadow-sm overflow-hidden"
-      >
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('client')}</TableHead>
-              <TableHead>{t('status')}</TableHead>
-              <TableHead>{t('plan')}</TableHead>
-              <TableHead>{t('spent')}</TableHead>
-              <TableHead>{t('lastPayment')}</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredClients.length > 0 ? (
-              filteredClients.map((client) => (
-                <TableRow key={client.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
-                        <AvatarImage src={client.avatar} alt={client.name} />
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                          {client.name.split(' ').map((n: string) => n[0]).join('')}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-medium">{client.name}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {client.email}
-                        </div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      {client.status === "active" ? (
-                        <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                          {t('active')}
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="bg-muted text-muted-foreground">
-                          {t('inactive')}
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>{client.plan}</TableCell>
-                  <TableCell>${client.spent.toLocaleString()}</TableCell>
-                  <TableCell>{client.lastPayment}</TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">{t('actions')}</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>{t('viewDetails')}</DropdownMenuItem>
-                        <DropdownMenuItem>{t('edit')}</DropdownMenuItem>
-                        <DropdownMenuItem>{t('billingHistory')}</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          {t('delete')}
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
-                  <div className="flex flex-col items-center justify-center text-muted-foreground">
-                    <User className="h-8 w-8 mb-2" />
-                    <p>{t('noClientsYet')}</p>
-                    <p className="text-sm">{t('createYourFirstProject')}</p>
-                  </div>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </motion.div>
+      <ClientsTable clients={filteredClients} />
+
+      <ClientFormDialog 
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSubmit={handleSubmit}
+        projectName={projectDetails.name}
+        subscriptions={projectSubscriptions}
+      />
     </motion.div>
   );
 };
