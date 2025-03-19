@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { AuthPageSettings } from "@/components/auth/AuthPageSettings";
 import { Github, Mail, ArrowRight } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -30,14 +30,14 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       await login(email, password);
-      
+
       // Get the redirect path from location state or default to dashboard
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
-      
+
       toast({
         title: t('signIn'),
         description: "You have successfully logged in.",
@@ -61,10 +61,8 @@ const Login = () => {
     )}>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div className="absolute top-4 right-4">
-            <ThemeToggle />
-          </div>
-          
+          <AuthPageSettings />
+
           <div className="flex flex-col items-center">
             <div className={cn(
               "h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-6",
@@ -194,7 +192,7 @@ const Login = () => {
                   <Checkbox
                     id="remember"
                     checked={rememberMe}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       setRememberMe(checked as boolean)
                     }
                     className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
@@ -207,9 +205,9 @@ const Login = () => {
                   </label>
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full group transition-all duration-300 hover:shadow-lg" 
+                <Button
+                  type="submit"
+                  className="w-full group transition-all duration-300 hover:shadow-lg"
                   disabled={isSubmitting || isLoading}
                 >
                   {isSubmitting || isLoading ? (

@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "@/components/theme-provider";
+import { AuthPageSettings } from "@/components/auth/AuthPageSettings";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,6 +31,7 @@ type FormValues = z.infer<typeof formSchema>;
 const ForgotPassword = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { theme } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -64,8 +68,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-md">
+    <div className={cn(
+      "flex items-center justify-center min-h-screen bg-gradient-to-br from-primary/5 via-background to-background/80",
+      theme === "dark" && "from-primary/10 via-background to-background/90"
+    )}>
+      <AuthPageSettings />
+      <Card className="w-full max-w-md relative z-10 border-border/60 shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">{t("forgotPassword")}</CardTitle>
           <CardDescription>

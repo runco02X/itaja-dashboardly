@@ -8,12 +8,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Github, Mail } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
+import { AuthPageSettings } from "@/components/auth/AuthPageSettings";
+import { cn } from "@/lib/utils";
 
 const Register = () => {
   const { t } = useTranslation();
   const { register, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,9 +60,13 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-primary/5 via-background to-background/80">
+    <div className={cn(
+      "flex min-h-screen bg-gradient-to-br from-primary/5 via-background to-background/80",
+      theme === "dark" && "from-primary/10 via-background to-background/90"
+    )}>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
+          <AuthPageSettings />
           <div className="flex flex-col items-center">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
               <svg
@@ -237,9 +245,17 @@ const Register = () => {
         </div>
       </div>
       <div className="relative hidden w-0 flex-1 lg:block">
-        <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-primary to-primary-foreground/10 object-cover">
+        <div className={cn(
+          "absolute inset-0 h-full w-full bg-gradient-to-tr from-primary to-primary-foreground/5",
+          theme === "dark" ? "from-primary/80 to-background" : "from-primary to-primary-foreground/10",
+          "transition-colors duration-500"
+        )}>
           <div className="flex h-full items-center justify-center p-12">
-            <div className="max-w-2xl text-white">
+            <div className={cn(
+              "max-w-2xl",
+              theme === "dark" ? "text-white" : "text-white",
+              "rounded-xl p-8 backdrop-blur-sm bg-background/5 border border-white/10"
+            )}>
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
                 Itaja Dashboard
               </h1>

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ProjectDataProvider } from "./context/ProjectDataContext";
 import { AuthProvider } from "./context/AuthContext";
@@ -21,9 +22,10 @@ import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <ProjectDataProvider>
+    <ThemeProvider defaultTheme="system" storageKey="itaja-ui-theme">
+      <LanguageProvider>
+        <AuthProvider>
+          <ProjectDataProvider>
           <Router>
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -51,10 +53,11 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
-          <Toaster />
-        </ProjectDataProvider>
-      </AuthProvider>
-    </LanguageProvider>
+            <Toaster />
+          </ProjectDataProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 
