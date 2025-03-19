@@ -62,6 +62,7 @@ export type TranslationKeys = {
   delete: string;
   actions: string;
   project: string;
+  returningToProject: string;
 
   // Notifications page
   notificationsTitle: string;

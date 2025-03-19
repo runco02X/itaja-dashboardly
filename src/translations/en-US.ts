@@ -1,4 +1,3 @@
-
 export const enUS = {
   // Navigation & Layout
   projects: "Projects",
@@ -54,6 +53,7 @@ export const enUS = {
   delete: "Delete",
   actions: "Actions",
   project: "Project",
+  returningToProject: "Returning to project",
 
   // Notifications page
   notificationsTitle: "Notifications",
