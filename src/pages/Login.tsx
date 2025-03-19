@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "@/context/LanguageContext";
@@ -8,7 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Github, Mail } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Github, Mail, ArrowRight } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -16,6 +20,7 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme } = useTheme();
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,11 +55,21 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-primary/5 via-background to-background/80">
+    <div className={cn(
+      "flex min-h-screen bg-gradient-to-br from-primary/5 via-background to-background/80",
+      theme === "dark" && "from-primary/10 via-background to-background/90"
+    )}>
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
+          <div className="absolute top-4 right-4">
+            <ThemeToggle />
+          </div>
+          
           <div className="flex flex-col items-center">
-            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+            <div className={cn(
+              "h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-6",
+              "shadow-lg transition-all duration-300 hover:scale-105"
+            )}>
               <svg
                 className="h-8 w-8 text-primary"
                 viewBox="0 0 24 24"
@@ -101,7 +116,7 @@ const Login = () => {
           <div className="mt-10">
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-3">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full transition-all duration-300 hover:shadow-md">
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -123,7 +138,7 @@ const Login = () => {
                   </svg>
                   Google
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full transition-all duration-300 hover:shadow-md">
                   <Github className="mr-2 h-4 w-4" />
                   GitHub
                 </Button>
@@ -142,7 +157,7 @@ const Login = () => {
 
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t('email')}</Label>
+                  <Label htmlFor="email" className="text-foreground">{t('email')}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -150,13 +165,13 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="bg-background"
+                    className="bg-background border-input focus:border-primary focus:ring-primary transition-all duration-300"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">{t('password')}</Label>
+                    <Label htmlFor="password" className="text-foreground">{t('password')}</Label>
                     <Link
                       to="/forgot-password"
                       className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
@@ -171,7 +186,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="bg-background"
+                    className="bg-background border-input focus:border-primary focus:ring-primary transition-all duration-300"
                   />
                 </div>
 
@@ -182,10 +197,11 @@ const Login = () => {
                     onCheckedChange={(checked) => 
                       setRememberMe(checked as boolean)
                     }
+                    className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
                   <label
                     htmlFor="remember"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
                   >
                     {t('rememberMe')}
                   </label>
@@ -193,7 +209,7 @@ const Login = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full" 
+                  className="w-full group transition-all duration-300 hover:shadow-lg" 
                   disabled={isSubmitting || isLoading}
                 >
                   {isSubmitting || isLoading ? (
@@ -205,6 +221,7 @@ const Login = () => {
                     <>
                       <Mail className="mr-2 h-4 w-4" />
                       {t('signIn')}
+                      <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                     </>
                   )}
                 </Button>
@@ -214,9 +231,17 @@ const Login = () => {
         </div>
       </div>
       <div className="relative hidden w-0 flex-1 lg:block">
-        <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-primary to-primary-foreground/10 object-cover">
+        <div className={cn(
+          "absolute inset-0 h-full w-full bg-gradient-to-tr from-primary to-primary-foreground/5",
+          theme === "dark" ? "from-primary/80 to-background" : "from-primary to-primary-foreground/10",
+          "transition-colors duration-500"
+        )}>
           <div className="flex h-full items-center justify-center p-12">
-            <div className="max-w-2xl text-white">
+            <div className={cn(
+              "max-w-2xl",
+              theme === "dark" ? "text-white" : "text-white",
+              "rounded-xl p-8 backdrop-blur-sm bg-background/5 border border-white/10"
+            )}>
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
                 Itaja Dashboard
               </h1>
