@@ -95,10 +95,8 @@ const ProjectDashboard = () => {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div className="md:col-span-2">
-          <ProjectPaymentLogs projectId={projectId || ''} />
-        </div>
+      <div className="w-full">
+        <ProjectPaymentLogs projectId={projectId || ''} />
       </div>
     </div>
   );
