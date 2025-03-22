@@ -82,6 +82,8 @@ export const enUS = {
   createYourFirstProject: "Create your first project",
 
   // Project dashboard
+  backToProjects: 'Back to Projects',
+  projectDashboardSubtitle: 'Analytics and overview of your project performance',
   analytics: "Analytics and overview of your project performance",
   clientsBtn: "Clients",
   subscriptionsBtn: "Subscriptions",
@@ -290,4 +292,10 @@ export const enUS = {
   downloadTemplate: "Download template",
   invalidFileType: "Invalid file type. Please upload a CSV or Excel file.",
   fileTooLarge: "File is too large. Maximum size is 5MB.",
-};
+  
+  // Project Switcher
+  switchProject: 'Switch Project',
+  selectProject: 'Select a project',
+  searchProjects: 'Search projects...',
+  noProjectsFound: 'No projects found',
+} as const;

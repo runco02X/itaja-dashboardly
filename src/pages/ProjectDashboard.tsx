@@ -1,4 +1,3 @@
-
 import { TrendingUp, Users, Activity, ArrowDownRight, CreditCard, ArrowLeft } from "lucide-react";
 import { StatisticCard } from "@/components/dashboard/statistic-card";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
@@ -7,22 +6,17 @@ import { RecentActivities } from "@/components/dashboard/recent-activities";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
+import { useProjectData } from "@/context/ProjectDataContext";
 
 const ProjectDashboard = () => {
   const { projectId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { projectsData } = useProjectData();
   
-  // Mock project data based on ID
-  const getProjectName = () => {
-    switch(projectId) {
-      case "1": return "SaaS Platform";
-      case "2": return "E-commerce API";
-      case "3": return "Mobile App Payments";
-      case "4": return "Membership Site";
-      default: return `Project ${projectId}`;
-    }
-  };
+  // Get project data based on ID
+  const project = projectsData.find(p => p.id === projectId);
+  const projectName = project ? project.name : `Project ${projectId}`;
 
   return (
     <div className="space-y-6">
@@ -34,27 +28,27 @@ const ProjectDashboard = () => {
           className="flex items-center text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {t('back')} {t('projects')}
+          {t('backToProjects')}
         </Button>
       </div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{getProjectName()}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{projectName}</h1>
           <p className="text-muted-foreground">
-            Analytics and overview of your project performance
+            {t('projectDashboardSubtitle')}
           </p>
         </div>
         <div className="flex gap-2">
           <Link to={`/projects/${projectId}/clients`}>
             <Button variant="outline">
               <Users className="mr-2 h-4 w-4" />
-              Clients
+              {t('clients')}
             </Button>
           </Link>
           <Link to={`/projects/${projectId}/subscriptions`}>
             <Button variant="outline">
               <CreditCard className="mr-2 h-4 w-4" />
-              Subscriptions
+              {t('subscriptions')}
             </Button>
           </Link>
         </div>

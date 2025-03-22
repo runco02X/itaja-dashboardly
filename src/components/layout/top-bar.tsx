@@ -5,8 +5,9 @@ import { LanguageSelector } from "@/components/language-selector";
 import { SkipToContent } from "@/components/accessibility/skip-to-content";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ProjectSwitcher } from "@/components/project/ProjectSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,11 +27,15 @@ export function TopBar({ sidebarOpen, onSidebarOpenChange }: TopBarProps) {
   const { user, logout } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+  
+  // Check if we're on a project-related route
+  const isProjectRoute = location.pathname.includes('/projects/');
   
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center gap-4 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -50,6 +55,13 @@ export function TopBar({ sidebarOpen, onSidebarOpenChange }: TopBarProps) {
         )}
         <span className="sr-only">{sidebarOpen ? t('closeMenu') : t('openMenu')}</span>
       </Button>
+      
+      {/* Project Switcher - only show on project routes or main dashboard */}
+      {(isProjectRoute || location.pathname === '/' || location.pathname === '/projects') && (
+        <div className="hidden md:block">
+          <ProjectSwitcher />
+        </div>
+      )}
 
       <div className="ml-auto flex items-center gap-2">
         <LanguageSelector />
