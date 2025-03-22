@@ -1,3 +1,4 @@
+
 export const fr = {
   // Navigation & Layout
   projects: "Projets",
@@ -231,7 +232,6 @@ export const fr = {
   duplicate: "Dupliquer",
   monthly: "mensuel",
   yearly: "annuel",
-  filter: "Filtrer",
   
   // NotFound page
   notFound: "Page non trouvée",
@@ -297,6 +297,4 @@ export const fr = {
   // Project Switcher
   switchProject: 'Changer de Projet',
   selectProject: 'Sélectionner un projet',
-  searchProjects: 'Rechercher des projets...',
-  noProjectsFound: 'Aucun projet trouvé',
 };
