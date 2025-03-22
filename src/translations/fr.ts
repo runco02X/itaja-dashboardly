@@ -244,7 +244,6 @@ export const fr = {
   optional: "Optionnel",
   submit: "Soumettre",
   briefDescription: "Brève description",
-  filter: "Filtrer",
   
   // Common
   returnToDashboard: "Retour au Tableau de Bord",
@@ -264,6 +263,7 @@ export const fr = {
   search: "Rechercher",
   clear: "Effacer",
   apply: "Appliquer",
+  filter: "Filtrer",
 
   // Error pages
   pageNotFound: "Page non trouvée",

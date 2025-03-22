@@ -7,15 +7,13 @@ import { ProjectDataProvider } from "./context/ProjectDataContext";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import DashboardLayout from "./components/layout/dashboard-layout";
-
-// Import pages from the new presentation layer
-import Projects from "./presentation/pages/Projects";
-import ProjectDashboard from "./presentation/pages/ProjectDashboard";
-import Notifications from "./presentation/pages/Notifications";
+import Projects from "./pages/Projects";
+import ProjectDashboard from "./pages/ProjectDashboard";
+import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
-import PaymentLogs from "./presentation/pages/PaymentLogs";
+import PaymentLogs from "./pages/PaymentLogs";
 import ApiWebhooks from "./pages/ApiWebhooks";
-import ProjectClients from "./presentation/pages/ProjectClients";
+import ProjectClients from "./pages/ProjectClients";
 import ProjectSubscriptions from "./pages/ProjectSubscriptions";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
