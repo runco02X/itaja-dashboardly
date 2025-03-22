@@ -5,7 +5,11 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { TopBar } from "@/components/layout/top-bar";
 import { Outlet } from "react-router-dom";
 
-export default function DashboardLayout() {
+interface DashboardLayoutProps {
+  children?: React.ReactNode;
+}
+
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -15,7 +19,7 @@ export default function DashboardLayout() {
         <div className="flex flex-1 flex-col">
           <TopBar sidebarOpen={sidebarOpen} onSidebarOpenChange={setSidebarOpen} />
           <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 animate-fade-in">
-            <Outlet />
+            {children || <Outlet />}
           </main>
         </div>
       </div>
