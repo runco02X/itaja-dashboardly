@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Download, CheckCircle, XCircle, AlertTriangle, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ChartCard } from "@/components/dashboard/chart-card";
 import {
   Table,
   TableBody,
@@ -12,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -61,62 +60,70 @@ export function ProjectPaymentLogs({ projectId }: ProjectPaymentLogsProps) {
   const [logs] = useState(paymentLogs);
 
   return (
-    <ChartCard 
-      title={t('paymentLogs')} 
-      action={
-        <Link to="/payment-logs">
-          <Button size="sm" variant="ghost" className="gap-1">
-            {t('viewAll')}
-            <ExternalLink className="h-3 w-3" />
-          </Button>
-        </Link>
-      }
-    >
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('invoiceId')}</TableHead>
-              <TableHead>{t('client')}</TableHead>
-              <TableHead>{t('plan')}</TableHead>
-              <TableHead>{t('amount')}</TableHead>
-              <TableHead>{t('status')}</TableHead>
-              <TableHead>{t('paymentDate')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {logs.map((log) => (
-              <TableRow key={log.id}>
-                <TableCell className="font-medium">{log.id}</TableCell>
-                <TableCell>{log.client}</TableCell>
-                <TableCell>{log.plan}</TableCell>
-                <TableCell>${log.amount.toFixed(2)}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    {log.status === "successful" ? (
-                      <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                        <CheckCircle className="mr-1 h-3 w-3" />
-                        {t('successful')}
-                      </Badge>
-                    ) : log.status === "failed" ? (
-                      <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20">
-                        <XCircle className="mr-1 h-3 w-3" />
-                        {t('failed')}
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-                        <AlertTriangle className="mr-1 h-3 w-3" />
-                        {t('pending')}
-                      </Badge>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>{log.date}</TableCell>
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl">{t('paymentLogs')}</CardTitle>
+            <CardDescription className="mt-1">
+              {t('viewLatestTransactions')}
+            </CardDescription>
+          </div>
+          <Link to="/payment-logs">
+            <Button size="sm" variant="ghost" className="gap-1">
+              {t('viewAll')}
+              <ExternalLink className="h-3 w-3" />
+            </Button>
+          </Link>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t('invoiceId')}</TableHead>
+                <TableHead>{t('client')}</TableHead>
+                <TableHead>{t('plan')}</TableHead>
+                <TableHead>{t('amount')}</TableHead>
+                <TableHead>{t('status')}</TableHead>
+                <TableHead>{t('paymentDate')}</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </ChartCard>
+            </TableHeader>
+            <TableBody>
+              {logs.map((log) => (
+                <TableRow key={log.id}>
+                  <TableCell className="font-medium">{log.id}</TableCell>
+                  <TableCell>{log.client}</TableCell>
+                  <TableCell>{log.plan}</TableCell>
+                  <TableCell>${log.amount.toFixed(2)}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {log.status === "successful" ? (
+                        <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200">
+                          <CheckCircle className="mr-1 h-3 w-3" />
+                          {t('successful')}
+                        </Badge>
+                      ) : log.status === "failed" ? (
+                        <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">
+                          <XCircle className="mr-1 h-3 w-3" />
+                          {t('failed')}
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="bg-amber-50 text-amber-600 border-amber-200">
+                          <AlertTriangle className="mr-1 h-3 w-3" />
+                          {t('pending')}
+                        </Badge>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>{log.date}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

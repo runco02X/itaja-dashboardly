@@ -5,15 +5,11 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/useTranslation";
 import { TranslationKey } from "@/translations";
 import {
-  Activity,
-  CreditCard,
   Key,
-  LayoutDashboard,
-  LogOut,
   Settings,
-  Users,
   Folder,
   Bell,
+  LogOut,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -97,12 +93,6 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
                 titleKey="projects"
                 path="/"
                 active={isActive("/")}
-              />
-              <SidebarItem
-                icon={<Activity className="h-full w-full" />}
-                titleKey="paymentLogs"
-                path="/payment-logs"
-                active={isActive("/payment-logs")}
               />
               <SidebarItem
                 icon={<Bell className="h-full w-full" />}
