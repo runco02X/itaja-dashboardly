@@ -1,8 +1,9 @@
+
 import { TrendingUp, Users, Activity, ArrowDownRight, CreditCard, ArrowLeft } from "lucide-react";
 import { StatisticCard } from "@/components/dashboard/statistic-card";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { SubscriptionChart } from "@/components/dashboard/subscription-chart";
-import { RecentActivities } from "@/components/dashboard/recent-activities";
+import { ProjectPaymentLogs } from "@/components/dashboard/project-payment-logs";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
@@ -96,7 +97,7 @@ const ProjectDashboard = () => {
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div className="md:col-span-2">
-          <RecentActivities />
+          <ProjectPaymentLogs projectId={projectId || ''} />
         </div>
       </div>
     </div>
