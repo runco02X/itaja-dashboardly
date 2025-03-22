@@ -1,4 +1,3 @@
-
 export const fr = {
   // Navigation & Layout
   projects: "Projets",
@@ -264,6 +263,7 @@ export const fr = {
   search: "Rechercher",
   clear: "Effacer",
   apply: "Appliquer",
+  filter: "Filtrer",
 
   // Error pages
   pageNotFound: "Page non trouvée",
