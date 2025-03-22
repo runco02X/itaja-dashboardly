@@ -12,7 +12,6 @@ import { ClientFormDialog, ClientFormValues } from "@/components/project/ClientF
 import { ImportClientsDialog } from "@/components/project/ImportClientsDialog";
 import { useClients } from "@/application/hooks";
 import { Project, Subscription } from "@/domain/types";
-import { useProjects } from "@/application/hooks";
 
 const ProjectClients = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -20,7 +19,6 @@ const ProjectClients = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { projectsData, subscriptionsByProject } = useProjectData();
-  const { getProjectById } = useProjects();
   
   const [searchTerm, setSearchTerm] = useState("");
   const [projectDetails, setProjectDetails] = useState<Project | null>(null);
@@ -30,13 +28,12 @@ const ProjectClients = () => {
 
   // Initialize project details and subscriptions
   useEffect(() => {
-    // Get complete project details using the useProjects hook
-    const project = getProjectById(projectId);
-    setProjectDetails(project);
+    const project = projectsData.find(p => p.id === projectId);
+    setProjectDetails(project || null);
 
     const subscriptions = subscriptionsByProject[projectId as keyof typeof subscriptionsByProject] || [];
     setProjectSubscriptions(subscriptions);
-  }, [projectId, projectsData, subscriptionsByProject, getProjectById]);
+  }, [projectId, projectsData, subscriptionsByProject]);
 
   // Use the clients hook
   const { 
