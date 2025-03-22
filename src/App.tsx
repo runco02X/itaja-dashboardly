@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "./context/LanguageContext";
@@ -18,7 +19,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
-// import ServerError from "./pages/ServerError";
+// ServerError page is commented out as it's referenced but doesn't exist yet
 
 function App() {
   return (
@@ -26,33 +27,36 @@ function App() {
       <LanguageProvider>
         <AuthProvider>
           <ProjectDataProvider>
-          <Router>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Router>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
 
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<Projects />} />
-                <Route path="projects" element={<Projects />} />
-                <Route path="projects/:projectId" element={<ProjectDashboard />} />
-                <Route path="projects/:projectId/clients" element={<ProjectClients />} />
-                <Route path="projects/:projectId/subscriptions" element={<ProjectSubscriptions />} />
-                <Route path="payment-logs" element={<PaymentLogs />} />
-                <Route path="api-webhooks" element={<ApiWebhooks />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="notifications" element={<Notifications />} />
-              </Route>
+                <Route path="/" element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <Outlet />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<Projects />} />
+                  <Route path="projects" element={<Projects />} />
+                  <Route path="projects/:projectId" element={<ProjectDashboard />} />
+                  <Route path="projects/:projectId/clients" element={<ProjectClients />} />
+                  <Route path="projects/:projectId/subscriptions" element={<ProjectSubscriptions />} />
+                  <Route path="payment-logs" element={<PaymentLogs />} />
+                  <Route path="api-webhooks" element={<ApiWebhooks />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route path="notifications" element={<Notifications />} />
+                </Route>
 
-              <Route path="/404" element={<NotFound />} />
-              <Route path="/500" element={<NotFound />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Router>
+                <Route path="/404" element={<NotFound />} />
+                {/* Temporary using NotFound for 500 errors since ServerError isn't implemented */}
+                <Route path="/500" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
             <Toaster />
           </ProjectDataProvider>
         </AuthProvider>
