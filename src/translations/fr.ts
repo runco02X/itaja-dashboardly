@@ -82,6 +82,8 @@ export const fr = {
   createYourFirstProject: "Créez votre premier projet",
 
   // Project dashboard
+  backToProjects: 'Retour aux Projets',
+  projectDashboardSubtitle: 'Analyses et aperçu de la performance de votre projet',
   analytics: "Analyses et aperçu de la performance de votre projet",
   clientsBtn: "Clients",
   subscriptionsBtn: "Abonnements",
@@ -290,4 +292,10 @@ export const fr = {
   downloadTemplate: "Télécharger le modèle",
   invalidFileType: "Type de fichier invalide. Veuillez télécharger un fichier CSV ou Excel.",
   fileTooLarge: "Le fichier est trop volumineux. La taille maximale est de 5 Mo.",
+
+  // Project Switcher
+  switchProject: 'Changer de Projet',
+  selectProject: 'Sélectionner un projet',
+  searchProjects: 'Rechercher des projets...',
+  noProjectsFound: 'Aucun projet trouvé',
 };
