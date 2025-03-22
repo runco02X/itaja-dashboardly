@@ -1,3 +1,4 @@
+
 export const enUS = {
   // Navigation & Layout
   projects: "Projects",
@@ -53,7 +54,6 @@ export const enUS = {
   projectsTitle: "Projects",
   projectsSubtitle: "Manage your payment projects and their subscriptions",
   newProject: "New Project",
-  searchProjects: "Search projects...",
   clients: "clients",
   subscriptions: "subscriptions",
   active: "Active",
@@ -231,6 +231,7 @@ export const enUS = {
   duplicate: "Duplicate",
   monthly: "monthly",
   yearly: "yearly",
+  filter: "Filter",
   
   // NotFound page
   notFound: "Page not found",
@@ -262,7 +263,6 @@ export const enUS = {
   search: "Search",
   clear: "Clear",
   apply: "Apply",
-  filter: "Filter",
 
   // Error pages
   pageNotFound: "Page not found",
@@ -297,5 +297,4 @@ export const enUS = {
   switchProject: 'Switch Project',
   selectProject: 'Select a project',
   searchProjects: 'Search projects...',
-  noProjectsFound: 'No projects found',
 } as const;

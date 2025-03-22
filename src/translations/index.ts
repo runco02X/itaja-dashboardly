@@ -1,3 +1,4 @@
+
 import { enUS } from './en-US';
 import { fr } from './fr';
 
@@ -25,6 +26,9 @@ export type TranslationKeys = {
   darkMode: string;
   lightMode: string;
   systemTheme: string;
+  changeTheme: string;
+  skipToContent: string;
+  languageChanged: string;
   
   // Authentication
   signIn: string;
@@ -91,6 +95,8 @@ export type TranslationKeys = {
   createYourFirstProject: string;
 
   // Project dashboard
+  backToProjects: string;
+  projectDashboardSubtitle: string;
   analytics: string;
   clientsBtn: string;
   subscriptionsBtn: string;
@@ -288,12 +294,27 @@ export type TranslationKeys = {
   pageNotFoundMessage: string;
   serverError: string;
   serverErrorMessage: string;
+  goHome: string;
+
+  // Accessibility
+  mainContent: string;
+  openMenu: string;
+  closeMenu: string;
+  previousPage: string;
+  nextPage: string;
+  moreInfo: string;
+  refresh: string;
+  readMore: string;
+  
+  // Project Switcher
+  switchProject: string;
+  selectProject: string;
 };
 
 // Map of language codes to their translation objects
 const translationMap: Record<SupportedLanguage, Translations> = {
   en: enUS,
-  fr: fr,
+  fr: fr as unknown as Translations, // Type assertion to fix the compatibility issue
 };
 
 /**
