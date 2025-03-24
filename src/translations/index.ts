@@ -1,4 +1,3 @@
-
 import { enUS } from './en-US';
 import { fr } from './fr';
 
@@ -157,6 +156,7 @@ export type TranslationKeys = {
   refunded: string;
   downloadReceipt: string;
   contactClient: string;
+  viewLatestTransactions: string;
 
   // API & Webhooks page
   apiKeysTitle: string;

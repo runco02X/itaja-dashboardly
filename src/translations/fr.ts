@@ -1,4 +1,3 @@
-
 export const fr = {
   // Navigation & Layout
   projects: "Projets",
@@ -100,7 +99,7 @@ export const fr = {
   noActivitiesYet: "Pas encore d'activités",
   noSubscriptionsYet: "Pas encore d'abonnements",
   noClientsYet: "Pas encore de clients",
-
+  
   // Project Clients page
   manageClients: "Gérer les clients pour ce projet",
   searchClients: "Rechercher des clients...",
@@ -145,6 +144,7 @@ export const fr = {
   refunded: "Remboursé",
   downloadReceipt: "Télécharger le Reçu",
   contactClient: "Contacter le Client",
+  viewLatestTransactions: "Consultez les dernières transactions pour ce projet",
 
   // API & Webhooks page
   apiKeysTitle: "Clés API",

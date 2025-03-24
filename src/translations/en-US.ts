@@ -1,4 +1,3 @@
-
 export const enUS = {
   // Navigation & Layout
   projects: "Projects",
@@ -144,6 +143,7 @@ export const enUS = {
   refunded: "Refunded",
   downloadReceipt: "Download Receipt",
   contactClient: "Contact Client",
+  viewLatestTransactions: "View the latest transactions for this project",
 
   // API & Webhooks page
   apiKeysTitle: "API Keys",
