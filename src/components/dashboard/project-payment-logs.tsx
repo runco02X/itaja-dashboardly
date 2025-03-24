@@ -86,7 +86,7 @@ export function ProjectPaymentLogs({ projectId }: ProjectPaymentLogsProps) {
       <CardHeader>
         <CardTitle>{t('paymentLogs')}</CardTitle>
         <CardDescription>
-          {t('recentTransactions')} {projectId && `for project ${projectId}`}
+          {t('viewLatestTransactions')} {projectId && `for project ${projectId}`}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -96,7 +96,7 @@ export function ProjectPaymentLogs({ projectId }: ProjectPaymentLogsProps) {
               <TableHead>{t('amount')}</TableHead>
               <TableHead>{t('status')}</TableHead>
               <TableHead>{t('date')}</TableHead>
-              <TableHead>{t('method')}</TableHead>
+              <TableHead>{t('paymentMethod')}</TableHead>
               <TableHead>{t('description')}</TableHead>
             </TableRow>
           </TableHeader>
