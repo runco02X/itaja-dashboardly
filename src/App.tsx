@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import Checkout from "./pages/Checkout";
 // ServerError page is commented out as it's referenced but doesn't exist yet
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/checkout" element={<Checkout />} />
 
                 <Route path="/" element={
                   <ProtectedRoute>
