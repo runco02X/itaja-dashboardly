@@ -190,7 +190,7 @@ const Checkout = () => {
             <CardDescription>
               {checkoutStep === 'customer-info' && "Please enter your contact details"}
               {checkoutStep === 'email-verification' && "Enter the code sent to your email"}
-              {checkoutStep === 'payment' && "Enter your payment information"}
+              {checkoutStep === 'payment' && "Review your order and complete payment"}
             </CardDescription>
           </CardHeader>
           
@@ -333,24 +333,6 @@ const Checkout = () => {
                 <div className="rounded-md border border-green-200 bg-green-50 p-3 flex items-center space-x-2 dark:bg-green-900/20 dark:border-green-900/30">
                   <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
                   <div className="text-sm text-green-700 dark:text-green-400">Email verified successfully!</div>
-                </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="card-number">Card Number</Label>
-                    <Input id="card-number" placeholder="0000 0000 0000 0000" />
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="expiration">Expiration Date</Label>
-                      <Input id="expiration" placeholder="MM/YY" />
-                    </div>
-                    <div>
-                      <Label htmlFor="cvv">Security Code</Label>
-                      <Input id="cvv" placeholder="CVV" />
-                    </div>
-                  </div>
                 </div>
                 
                 <Separator className="my-4" />
